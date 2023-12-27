@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 export function AuthCallback() {
     let code = window.location.href.split("code=")[1];
@@ -15,7 +16,7 @@ export function AuthCallback() {
         })
         .then(response => response.json())
         .then(data => {
-            document.cookie = "token="+data.access_token;
+            Cookies.set("access_token", data.access_token);
             navigate("/");
         })
         .catch(error => {

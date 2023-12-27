@@ -1,10 +1,9 @@
 from .models import User
 from sqlalchemy.orm import Session
 from app.db import get_session
-from fastapi import APIRouter, status, Depends
+from fastapi import Depends, HTTPException
 from uuid import uuid4, UUID
-# import jwt
-from jose import jwt
+from jose import jwt, exceptions
 import os
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
@@ -48,3 +47,18 @@ async def create_user(cid: str, nickname: str, campus: str, db: Session = Depend
         db.refresh(user)
         token = create_access_token(data={"sub": user.id})
     return user
+
+def get_user(db: Session, id: str):
+    user = db.query(User).filter(User.id == id).first()
+    return user
+
+
+def get_user_by_token(db: Session, token: str):
+    try:
+        payload = jwt.decode(token, JWT_SECRET_KEY, algorithms=[ALGORITHM])
+    except exceptions.ExpiredSignatureError:
+        raise HTTPException(status_code=401, detail="Token has expired")
+    except exceptions.JWTError:
+        raise HTTPException(status_code=401, detail="Invalid token")
+    id: str = payload.get("sub")
+    return get_user(db, id)

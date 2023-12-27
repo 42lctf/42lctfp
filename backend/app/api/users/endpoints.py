@@ -1,13 +1,11 @@
 from fastapi import APIRouter, status, Depends, HTTPException
 from .models import User
-from .schema import UserRequest
-from .services import create_user, create_access_token
+from .services import create_user, create_access_token, get_user_by_token
 from uuid import uuid4
 from app.db import get_session
 import os
 from dotenv import load_dotenv
 import requests
-# from app.db import SessionLocal
 from sqlalchemy.orm import Session
 
 load_dotenv()
@@ -43,9 +41,7 @@ async def auth_callback(code: str, db: Session = Depends(get_session)):
             detail="This platform is not opened for your campus YET!"
         )
 
-    print("-----------------------------------------------------------------")
     new_user = await create_user(user_id, nickname, campus, db)
-    print(new_user.id)
     token = create_access_token(data={"sub": new_user.id})
     if new_user:
         return {"access_token": token, "token_type": "bearer"}
@@ -55,3 +51,8 @@ async def auth_callback(code: str, db: Session = Depends(get_session)):
             detail="Something went wrong"
         )
 
+
+@UserRouter.get('/me')
+async def get_me(token: str ,db: Session = Depends(get_session)):
+    user = get_user_by_token(db, token)
+    return user
