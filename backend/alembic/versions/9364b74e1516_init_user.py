@@ -21,6 +21,8 @@ def upgrade() -> None:
     op.create_table(
         'ctf_user',
         sa.Column('id', sa.String, primary_key=True, nullable=False),
+        sa.Column('campus', sa.String, nullable=False),
+        sa.Column('campus_id', sa.Integer, nullable=False),
         sa.Column('nickname', sa.String, nullable=False),
         sa.Column('description', sa.String, nullable=True),
         sa.Column('score', sa.Integer, nullable=True),

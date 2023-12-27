@@ -1,16 +1,57 @@
-from fastapi import APIRouter, status
+from fastapi import APIRouter, status, Depends, HTTPException
 from .models import User
 from .schema import UserRequest
-from .services import create_user
+from .services import create_user, create_access_token
 from uuid import uuid4
+from app.db import get_session
+import os
+from dotenv import load_dotenv
+import requests
+# from app.db import SessionLocal
+from sqlalchemy.orm import Session
+
+load_dotenv()
 
 UserRouter = APIRouter()
 
-@UserRouter.post("/user", status_code=status.HTTP_201_CREATED)
-async def create_user(user: UserRequest):
-    new_user = User(id=uuid4(), nickname=user.nickname, description="default description")
-    return await create_user(user)
+@UserRouter.get('/auth/callback')
+async def auth_callback(code: str, db: Session = Depends(get_session)):
+    data = {
+        'grant_type': (None, 'authorization_code'),
+        'client_id': (None, os.getenv('AUTH_CLIENT_ID')),
+        'client_secret': (None, os.getenv('AUTH_CLIENT_SECRET')),
+        'code': (None, code),
+        'redirect_uri': (None, os.getenv('REDIRECT_AUTH_URL'))
+    }
 
-# @UserRouter.get("/users", response_model=list[UserRequest])
-# async def get_users():
-#     return await get_users()
+    response = requests.post('https://api.intra.42.fr/oauth/token', files=data)
+
+    auth_token = response.json()['access_token']
+
+    headers = {
+        'Authorization': f'Bearer {auth_token}'
+    }
+
+    response = requests.get('https://api.intra.42.fr/v2/me', headers=headers)
+    user_id = response.json()['id']
+    nickname = response.json()['login']
+    campus = response.json()['campus'][0]['name']
+
+    if campus != "Lausanne":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN, 
+            detail="This platform is not opened for your campus YET!"
+        )
+
+    print("-----------------------------------------------------------------")
+    new_user = await create_user(user_id, nickname, campus, db)
+    print(new_user.id)
+    token = create_access_token(data={"sub": new_user.id})
+    if new_user:
+        return {"access_token": token, "token_type": "bearer"}
+    else:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, 
+            detail="Something went wrong"
+        )
+
