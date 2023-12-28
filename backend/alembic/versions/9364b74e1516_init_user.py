@@ -8,6 +8,7 @@ Create Date: 2023-12-26 19:54:36.399240
 from alembic import op
 import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
+from sqlalchemy.dialects.postgresql import UUID
 
 
 # revision identifiers, used by Alembic.
@@ -16,13 +17,14 @@ down_revision = None
 branch_labels = None
 depends_on = None
 
+# UUID(as_uuid=True)
 
 def upgrade() -> None:
     op.create_table(
         'ctf_user',
-        sa.Column('id', sa.String, primary_key=True, nullable=False),
+        sa.Column('id', sa.BigInteger, primary_key=True, nullable=False),
         sa.Column('campus', sa.String, nullable=False),
-        sa.Column('campus_id', sa.Integer, nullable=False),
+        sa.Column('campus_id', sa.BigInteger, nullable=False),
         sa.Column('nickname', sa.String, nullable=False),
         sa.Column('description', sa.String, nullable=True),
         sa.Column('score', sa.Integer, nullable=True),
@@ -39,36 +41,36 @@ def upgrade() -> None:
 
     op.create_table(
         'challenge',
-        sa.Column('id', sa.String, primary_key=True, nullable=False),
+        sa.Column('id', sa.BigInteger, primary_key=True, nullable=False),
         sa.Column('difficulty', postgresql.ENUM('baby', 'easy', 'medium', 'hard', 'insane', name='difficulty')),
         sa.Column('title', sa.String, nullable=False),
         sa.Column('description', sa.String, nullable=False),
         sa.Column('flag', sa.String, nullable=False),
-        sa.Column('category_id', sa.String, sa.ForeignKey('category.id'), nullable=False),
+        sa.Column('category_id', sa.BigInteger, sa.ForeignKey('category.id'), nullable=False),
         sa.Column('created_at', sa.DateTime),
     )
 
     op.create_table(
         'hint',
-        sa.Column('id', sa.String, primary_key=True, nullable=False),
-        sa.Column('challenge_id', sa.String, sa.ForeignKey('challenge.id'), nullable=False),
+        sa.Column('id', sa.BigInteger, primary_key=True, nullable=False),
+        sa.Column('challenge_id', sa.BigInteger, sa.ForeignKey('challenge.id'), nullable=False),
         sa.Column('description', sa.String, nullable=False),
-        sa.Column('cost', sa.Integer, nullable=True),
+        sa.Column('cost', sa.BigInteger, nullable=True),
         sa.Column('created_at', sa.DateTime),
     )
 
     op.create_table(
         'user_challenges',
-        sa.Column('id', sa.String, primary_key=True, nullable=False),
-        sa.Column('user_id', sa.String, sa.ForeignKey('ctf_user.id'), nullable=False),
-        sa.Column('challenge_id', sa.String, sa.ForeignKey('challenge.id'), nullable=False),
+        sa.Column('id', sa.BigInteger, primary_key=True, nullable=False),
+        sa.Column('user_id', sa.BigInteger, sa.ForeignKey('ctf_user.id'), nullable=False),
+        sa.Column('challenge_id', sa.BigInteger, sa.ForeignKey('challenge.id'), nullable=False),
         sa.Column('created_at', sa.DateTime),
     )
 
     op.create_table(
         'challenge_files',
-        sa.Column('id', sa.String, primary_key=True, nullable=False),
-        sa.Column('challenge_id', sa.String, sa.ForeignKey('challenge.id'), nullable=False),
+        sa.Column('id', sa.BigInteger, primary_key=True, nullable=False),
+        sa.Column('challenge_id', sa.BigInteger, sa.ForeignKey('challenge.id'), nullable=False),
         sa.Column('created_at', sa.DateTime),
         # sa.Column('file_content', sa.String, sa.LargeBinary),
     )

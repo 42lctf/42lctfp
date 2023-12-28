@@ -11,8 +11,9 @@ class User(Base):
     campus = Column(String, nullable=False)
     nickname = Column(String, nullable=False)
     description = Column(String, nullable=True)
-    score = Column(Integer, nullable=True)
+    score = Column(Integer, nullable=False)
     is_admin = Column(Boolean, nullable=True)
+    created_at = Column(String)
 
     class Config:
         orm_mode = True

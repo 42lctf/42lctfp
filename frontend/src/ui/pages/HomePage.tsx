@@ -15,6 +15,7 @@ export function HomePage() {
         })
         .then(response => response.json())
         .then(data => {
+            console.log(data);
             setNickname(data.nickname);
         })
         .catch(error => {

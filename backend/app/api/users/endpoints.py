@@ -21,7 +21,6 @@ async def auth_callback(code: str, db: Session = Depends(get_session)):
         'code': (None, code),
         'redirect_uri': (None, os.getenv('REDIRECT_AUTH_URL'))
     }
-
     response = requests.post('https://api.intra.42.fr/oauth/token', files=data)
 
     auth_token = response.json()['access_token']
@@ -29,8 +28,8 @@ async def auth_callback(code: str, db: Session = Depends(get_session)):
     headers = {
         'Authorization': f'Bearer {auth_token}'
     }
-
     response = requests.get('https://api.intra.42.fr/v2/me', headers=headers)
+    
     user_id = response.json()['id']
     nickname = response.json()['login']
     campus = response.json()['campus'][0]['name']
@@ -42,7 +41,7 @@ async def auth_callback(code: str, db: Session = Depends(get_session)):
         )
 
     new_user = await create_user(user_id, nickname, campus, db)
-    token = create_access_token(data={"sub": new_user.id})
+    token = create_access_token(data={"sub": str(new_user.id)})
     if new_user:
         return {"access_token": token, "token_type": "bearer"}
     else:

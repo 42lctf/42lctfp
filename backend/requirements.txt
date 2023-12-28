@@ -16,7 +16,6 @@ pyasn1==0.5.1
 pydantic==1.10.13
 PyJWT==2.8.0
 python-dotenv==1.0.0
-python-jose==3.3.0
 requests==2.31.0
 rsa==4.9
 six==1.16.0
