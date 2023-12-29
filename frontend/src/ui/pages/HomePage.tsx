@@ -6,7 +6,10 @@ export function HomePage() {
 
     useEffect(() => {
         const token = Cookies.get("access_token")
-        const url = `http://localhost:8004/users/me?token=${encodeURIComponent(token)}`;
+        if (!token) {
+            return
+        }
+        const url = `http://localhost:8004/api/v1/users/me?token=${encodeURIComponent(token)}`;
         fetch(url, {
             method: "GET",
             headers: {

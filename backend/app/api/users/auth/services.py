@@ -1,8 +1,8 @@
-from fastapi import HTTPException, status
-from ..models import User
+# from fastapi import HTTPException, status
+# from ..models import User
 from uuid import uuid4
 from sqlalchemy import or_
-from .utils import input_sanitizer, hash_password, verify_password, create_token
+from .utils import *
 
 
 async def user_registration_service(credentials, db):
@@ -40,4 +40,17 @@ async def user_login_service(user_credentials, db):
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid password"
         )
+    return create_token(data={"sub": str(user.id)}, t="access")
+
+
+async def user_auth_callback_service(code, db):
+    token_intra = get_token_from_intra(code)
+    data = get_data_from_intra(token_intra)
+
+    if data[2] != "Lausanne":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="This platform is not opened for your campus YET!"
+        )
+    user = create_user(data, db)
     return create_token(data={"sub": str(user.id)}, t="access")

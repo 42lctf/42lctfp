@@ -1,17 +1,18 @@
 import os
 import re
+import requests
 
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
 from jose import JWTError, jwt
 from passlib.context import CryptContext
-from fastapi import HTTPException, status
-
+from fastapi import HTTPException, status, Depends
+from sqlmodel import Session
+from uuid import uuid4
+from app.db import get_session
 from ..models import User
 
-
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
 
 load_dotenv()
 
@@ -22,6 +23,7 @@ JWT_REFRESH_SECRET_KEY = os.getenv('JWT_REFRESH_SECRET_KEY')
 ACCESS_TOKEN_EXPIRE_MINUTES = 60  # 30 minutes
 REFRESH_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7  # 7 days
 ALGORITHM = "HS256"
+
 
 def verify_password(plain_password, hashed_pass):
     return pwd_context.verify(plain_password, hashed_pass)
@@ -95,3 +97,55 @@ def create_token(data: dict, t="refresh", expires_delta: timedelta = None) -> st
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, key, algorithm=ALGORITHM)
     return encoded_jwt
+
+
+def get_token_from_intra(code):
+    data = {
+        'grant_type': (None, 'authorization_code'),
+        'client_id': (None, os.getenv('AUTH_CLIENT_ID')),
+        'client_secret': (None, os.getenv('AUTH_CLIENT_SECRET')),
+        'code': (None, code),
+        'redirect_uri': (None, os.getenv('REDIRECT_AUTH_URL'))
+    }
+    response = requests.post('https://api.intra.42.fr/oauth/token', files=data)
+    auth_token = response.json()['access_token']
+    return auth_token
+
+
+def get_data_from_intra(token):
+    headers = {
+        'Authorization': f'Bearer {token}'
+    }
+    response = requests.get('https://api.intra.42.fr/v2/me', headers=headers)
+    user_id = response.json()['id']
+    nickname = response.json()['login']
+    campus = response.json()['campus'][0]['name']
+    email = response.json()['email']
+
+    return [user_id, nickname, campus, email]
+
+
+def create_user(data, db: Session = Depends(get_session)):
+    user = db.query(User).filter(User.intra_id == data[0]).first()
+    if not user:
+        user_name = db.query(User).filter(User.nickname == data[1]).first()
+        if user_name:
+            #TODO: create a unique name
+            pass
+        user = User(
+            id=uuid4(),
+            email=data[3],
+            nickname=data[1],
+            campus=data[2],
+            intra_id=data[0],
+            score=0,
+            is_admin=False,
+            is_hidden=False,
+            is_verified=True,
+            created_at=datetime.now()
+        )
+        db.add(user)
+        db.commit()
+        db.refresh(user)
+        # user = db.query(User).filter(User.intra_id == data[0]).first()
+    return user

@@ -8,7 +8,7 @@ export function AuthCallback() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch("http://localhost:8004/users/auth/callback?code="+code, {
+        fetch("http://localhost:8004/api/v1/users/auth/callback?code="+code, {
             method: "GET",
             headers: {
                 "accept": "application/json"
@@ -16,6 +16,7 @@ export function AuthCallback() {
         })
         .then(response => response.json())
         .then(data => {
+            // TODO fix this shit if the response is not 200;
             Cookies.set("access_token", data.access_token);
             navigate("/");
         })

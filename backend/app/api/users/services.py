@@ -45,14 +45,7 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 #     return encoded_jwt
 
 
-async def create_user(cid: str, nickname: str, campus: str, db: Session = Depends(get_session)):
-    user = db.query(User).filter(User.campus_id == cid).first()
-    if not user:
-        user = User(id=uuid4(), campus_id=cid, nickname=nickname, campus=campus, score=0, created_at=datetime.now())
-        db.add(user)
-        db.commit()
-        db.refresh(user)
-    return user
+
 
 
 def get_user(db: Session, id_user: str):
