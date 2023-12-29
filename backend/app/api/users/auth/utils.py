@@ -39,13 +39,13 @@ def password_validation(password: str):
     if len(password) < 6:
         return "Password length must be greater than 6 characters", False
     if not any(char.isdigit() for char in password):
-        return "Password should contain at least 1 digit", False
+        return "Password must contain at least 1 digit", False
     if not any(char.isupper() for char in password):
         return "Password should contain at least 1 upper character", False
     if not any(char.islower() for char in password):
-        return "Password should contain at least 1 lower character", False
+        return "Password must contain at least 1 lower character", False
     if not any(char in sym for char in password):
-        return "Password should contain at least 1 symbol [@, #, $, %]", False
+        return "Password must contain at least 1 symbol [@, #, $, %]", False
     return "", True
 
 
@@ -61,24 +61,24 @@ def input_sanitizer(credentials, db):
     user = db.query(User).filter(credentials.email == User.email).first()
     if user:
         raise HTTPException(
-            status_code=status.HTTP_409_CONFLICT,
+            status_code=status.HTTP_412_PRECONDITION_FAILED,
             detail="Email already used"
         )
     msg, chk = password_validation(credentials.password)
     if not chk:
         raise HTTPException(
-            status_code=status.HTTP_409_CONFLICT,
+            status_code=status.HTTP_412_PRECONDITION_FAILED,
             detail=msg
         )
     if not email_validation(credentials.email):
         raise HTTPException(
-            status_code=status.HTTP_409_CONFLICT,
+            status_code=status.HTTP_412_PRECONDITION_FAILED,
             detail="Invalid email"
         )
     nickname = db.query(User).filter(credentials.nickname == User.nickname).first()
     if nickname:
         raise HTTPException(
-            status_code=status.HTTP_409_CONFLICT,
+            status_code=status.HTTP_412_PRECONDITION_FAILED,
             detail="Nickname already taken"
         )
 
@@ -101,11 +101,11 @@ def create_token(data: dict, t="refresh", expires_delta: timedelta = None) -> st
 
 def get_token_from_intra(code):
     data = {
-        'grant_type': (None, 'authorization_code'),
-        'client_id': (None, os.getenv('AUTH_CLIENT_ID')),
-        'client_secret': (None, os.getenv('AUTH_CLIENT_SECRET')),
-        'code': (None, code),
-        'redirect_uri': (None, os.getenv('REDIRECT_AUTH_URL'))
+        'grant_type': 'authorization_code',
+        'client_id': os.getenv('AUTH_CLIENT_ID'),
+        'client_secret': os.getenv('AUTH_CLIENT_SECRET'),
+        'code': code,
+        'redirect_uri': os.getenv('REDIRECT_AUTH_URL')
     }
     response = requests.post('https://api.intra.42.fr/oauth/token', files=data)
     auth_token = response.json()['access_token']
@@ -119,7 +119,7 @@ def get_data_from_intra(token):
     response = requests.get('https://api.intra.42.fr/v2/me', headers=headers)
     user_id = response.json()['id']
     nickname = response.json()['login']
-    campus = response.json()['campus'][0]['name']
+    campus = response.json()['campus'][0]['id']
     email = response.json()['email']
 
     return [user_id, nickname, campus, email]

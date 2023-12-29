@@ -31,7 +31,7 @@ async def user_login_service(user_credentials, db):
     ).first()
     if not user:
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
+            status_code=status.HTTP_404_NOT_FOUND,
             detail="User doesn't exist"
         )
     chk = verify_password(user_credentials.password, user.password)
@@ -47,7 +47,7 @@ async def user_auth_callback_service(code, db):
     token_intra = get_token_from_intra(code)
     data = get_data_from_intra(token_intra)
 
-    if data[2] != "Lausanne":
+    if data[2] != 47:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="This platform is not opened for your campus YET!"
