@@ -22,14 +22,3 @@ class User(Base):
 
     class Config:
         orm_mode = True
-
-
-
-
-
-# class UserRegistrationResponse(Base):
-#     message: String
-    # data: UserResponse
-
-
-

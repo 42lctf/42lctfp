@@ -11,3 +11,12 @@ class UserRegistrationRequest(BaseModel):
     class Config:
         orm_mode = True
         arbitrary_types_allowed = True
+
+
+class UserLoginRequest(BaseModel):
+    email_or_name: str
+    password: str
+
+    class Config:
+        orm_mode = True
+        arbitrary_types_allowed = True

@@ -6,6 +6,8 @@ from passlib.context import CryptContext
 from dotenv import load_dotenv
 from ..models import User
 from uuid import uuid4, UUID
+from sqlalchemy import or_
+from datetime import datetime, timedelta
 
 load_dotenv()
 
@@ -20,12 +22,12 @@ ALGORITHM = "HS256"
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
-def verify_password(user_pass, hashed_pass):
-    return pwd_context.verify(user_pass, hashed_pass)
+def verify_password(plain_password, hashed_pass):
+    return pwd_context.verify(plain_password, hashed_pass)
 
 
 def hash_password(password):
-    return pwd_context.hash(password);
+    return pwd_context.hash(password)
 
 
 def password_validation(password: str):
@@ -96,3 +98,37 @@ async def user_registration_service(credentials, db):
     db.commit()
     db.refresh(new_user)
     return new_user
+
+
+def create_token(data: dict, t="refresh", expires_delta: timedelta = None) -> str:
+    to_encode = data.copy()
+    key = JWT_REFRESH_SECRET_KEY
+    if expires_delta:
+        expire = datetime.utcnow() + expires_delta
+    else:
+        if t == "access":
+            expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+            key = JWT_SECRET_KEY
+        else:
+            expire = datetime.utcnow() + timedelta(minutes=REFRESH_TOKEN_EXPIRE_MINUTES)
+    to_encode.update({"exp": expire})
+    encoded_jwt = jwt.encode(to_encode, key, algorithm=ALGORITHM)
+    return encoded_jwt
+
+
+async def user_login_service(user_credentials, db):
+    user = db.query(User).filter(
+        or_(User.email == user_credentials.email_or_name, User.nickname == user_credentials.email_or_name)
+    ).first()
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="User doesn't exist"
+        )
+    chk = verify_password(user_credentials.password, user.password)
+    if not chk:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid password"
+        )
+    return create_token(data={"sub": str(user.id)}, t="access")

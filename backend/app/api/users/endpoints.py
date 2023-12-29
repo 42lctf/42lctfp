@@ -1,5 +1,7 @@
+from typing import Annotated
+
 from fastapi import APIRouter, status, Depends, HTTPException
-from fastapi.security import OAuth2PasswordBearer
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 # TODO cleanup his mess
 from . import services
 from app.db import get_session
@@ -7,8 +9,8 @@ import os
 from dotenv import load_dotenv
 import requests
 from sqlalchemy.orm import Session
-from app.api.users.auth.schemas import UserRegistrationRequest
-from .auth.services import user_registration_service
+from .auth.schemas import UserRegistrationRequest, UserLoginRequest
+from .auth.services import user_registration_service, user_login_service
 
 load_dotenv()
 
@@ -17,44 +19,44 @@ UserRouter = APIRouter()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 
-@UserRouter.get('/auth/callback')
-async def auth_callback(code: str, db: Session = Depends(get_session)):
-    data = {
-        'grant_type': (None, 'authorization_code'),
-        'client_id': (None, os.getenv('AUTH_CLIENT_ID')),
-        'client_secret': (None, os.getenv('AUTH_CLIENT_SECRET')),
-        'code': (None, code),
-        'redirect_uri': (None, os.getenv('REDIRECT_AUTH_URL'))
-    }
-    response = requests.post('https://api.intra.42.fr/oauth/token', files=data)
-
-    auth_token = response.json()['access_token']
-
-    headers = {
-        'Authorization': f'Bearer {auth_token}'
-    }
-    response = requests.get('https://api.intra.42.fr/v2/me', headers=headers)
-
-    user_id = response.json()['id']
-    nickname = response.json()['login']
-    campus = response.json()['campus'][0]['name']
-    email = response.json()['email']
-
-    if campus != "Lausanne":
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="This platform is not opened for your campus YET!"
-        )
-
-    new_user = await services.create_user(user_id, nickname, campus, db)
-    token = services.create_access_token(data={"sub": str(new_user.id)})
-    if new_user:
-        return {"access_token": token, "token_type": "bearer"}
-    else:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Something went wrong"
-        )
+# @UserRouter.get('/auth/callback')
+# async def auth_callback(code: str, db: Session = Depends(get_session)):
+#     data = {
+#         'grant_type': (None, 'authorization_code'),
+#         'client_id': (None, os.getenv('AUTH_CLIENT_ID')),
+#         'client_secret': (None, os.getenv('AUTH_CLIENT_SECRET')),
+#         'code': (None, code),
+#         'redirect_uri': (None, os.getenv('REDIRECT_AUTH_URL'))
+#     }
+#     response = requests.post('https://api.intra.42.fr/oauth/token', files=data)
+#
+#     auth_token = response.json()['access_token']
+#
+#     headers = {
+#         'Authorization': f'Bearer {auth_token}'
+#     }
+#     response = requests.get('https://api.intra.42.fr/v2/me', headers=headers)
+#
+#     user_id = response.json()['id']
+#     nickname = response.json()['login']
+#     campus = response.json()['campus'][0]['name']
+#     email = response.json()['email']
+#
+#     if campus != "Lausanne":
+#         raise HTTPException(
+#             status_code=status.HTTP_403_FORBIDDEN,
+#             detail="This platform is not opened for your campus YET!"
+#         )
+#
+#     new_user = await services.create_user(user_id, nickname, campus, db)
+#     token = services.create_access_token(data={"sub": str(new_user.id)})
+#     if new_user:
+#         return {"access_token": token, "token_type": "bearer"}
+#     else:
+#         raise HTTPException(
+#             status_code=status.HTTP_400_BAD_REQUEST,
+#             detail="Something went wrong"
+#         )
 
 
 @UserRouter.get('/me')
@@ -68,6 +70,12 @@ async def user_registration(user_credentials: UserRegistrationRequest, db: Sessi
     user = await user_registration_service(user_credentials, db)
     if user:
         return {"message": "User registration successful"}
+
+
+@UserRouter.post('/login', status_code=status.HTTP_200_OK)
+async def user_login(user_credentials: UserLoginRequest, db: Session = Depends(get_session)):
+    token = await user_login_service(user_credentials, db)
+    return {"access_token": token, "token_type": "bearer"}
 
 # @UserRouter.get("/items/")
 # async def read_items(token: Annotated[str, Depends(oauth2_scheme)]):
