@@ -21,7 +21,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(UserRouter, prefix="/users", tags=["users"])
+app.include_router(UserRouter, prefix="/api/v1/users", tags=["users"])
 
 @app.get("/ping")
 async def pong():
