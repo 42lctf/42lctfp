@@ -11,6 +11,7 @@ from sqlmodel import Session
 from uuid import uuid4
 from app.db import get_session
 from ..models import User
+from app.api.campus.utils import get_or_create_campus
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -107,7 +108,7 @@ def get_token_from_intra(code):
         'code': code,
         'redirect_uri': os.getenv('REDIRECT_AUTH_URL')
     }
-    response = requests.post('https://api.intra.42.fr/oauth/token', files=data)
+    response = requests.post('https://api.intra.42.fr/oauth/token', data=data)
     auth_token = response.json()['access_token']
     return auth_token
 
@@ -119,30 +120,33 @@ def get_data_from_intra(token):
     response = requests.get('https://api.intra.42.fr/v2/me', headers=headers)
     user_id = response.json()['id']
     nickname = response.json()['login']
-    campus = response.json()['campus'][0]['id']
+    campus = response.json()['campus_users']
+    campus_info = list(filter(lambda x: x['is_primary'], campus))[0]
+    campus_id = campus_info['campus_id'] if 'campus_id' in campus_info else None
     email = response.json()['email']
 
-    return [user_id, nickname, campus, email]
+    return {'user_id': user_id, 'nickname': nickname, 'campus_id': campus_id, 'email': email}
 
 
 def create_user(data, db: Session = Depends(get_session)):
-    user = db.query(User).filter(User.intra_id == data[0]).first()
+    user = db.query(User).filter(User.intra_id == data['user_id']).first()
+    campus_t = get_or_create_campus(data['campus_id'], db)
     if not user:
-        user_name = db.query(User).filter(User.nickname == data[1]).first()
+        user_name = db.query(User).filter(User.nickname == data['nickname']).first()
         if user_name:
-            #TODO: create a unique name
+            # TODO: create a unique name
             pass
         user = User(
             id=uuid4(),
-            email=data[3],
-            nickname=data[1],
-            campus=data[2],
-            intra_id=data[0],
-            score=0,
+            email=data['email'],
+            nickname=data['nickname'],
+            campus=campus_t.id,
+            intra_id=data['user_id'],
             is_admin=False,
             is_hidden=False,
             is_verified=True,
-            created_at=datetime.now()
+            created_at=datetime.now(),
+            updated_at=datetime.now()
         )
         db.add(user)
         db.commit()

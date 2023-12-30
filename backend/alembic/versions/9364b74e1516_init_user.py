@@ -19,19 +19,25 @@ depends_on = None
 
 def upgrade() -> None:
     op.create_table(
+        'campus',
+        sa.Column('id', UUID(as_uuid=True), primary_key=True, nullable=False),
+        sa.Column('campus_id', sa.Integer, nullable=False)
+        # sa.Column('name', sa.String(50), nullable=False)
+    )
+
+    op.create_table(
         'ctf_user',
         sa.Column('id', UUID(as_uuid=True), primary_key=True, nullable=False),
         sa.Column('email', sa.String(length=100), nullable=False, unique=True),
-        sa.Column('password', sa.String(50), nullable=True),
-        sa.Column('campus_id', sa.BigInteger, nullable=True),
+        sa.Column('password', sa.String(length=50), nullable=True),
         sa.Column('intra_id', sa.BigInteger, nullable=True),
-        sa.Column('nickname', sa.String(50), nullable=False, unique=True),
-        sa.Column('description', sa.String(150), nullable=True),
-        sa.Column('website', sa.String(50), nullable=True),
-        sa.Column('score', sa.Integer, default=0, nullable=True),
+        sa.Column('nickname', sa.String(length=50), nullable=False, unique=True),
+        sa.Column('description', sa.String(length=150), nullable=True),
+        sa.Column('website', sa.String(length=50), nullable=True),
         sa.Column('is_admin', sa.Boolean, default=False, nullable=False),
         sa.Column('is_hidden', sa.Boolean, default=False, nullable=False),
         sa.Column('is_verified', sa.Boolean, default=False, nullable=False),
+        sa.Column('campus', UUID, sa.ForeignKey('campus.id'), nullable=True),
         sa.Column('created_at', sa.DateTime, nullable=False),
         sa.Column('updated_at', sa.DateTime, nullable=False),
     )
