@@ -38,7 +38,7 @@ logsfront:
 logsback:
 			${DOCKER} logs backend
 logspostg:
-			${DOCKER} logs db
+			${DOCKER} logs postgres
 logsnginx:
 			${DOCKER} logs nginx
 
@@ -47,7 +47,7 @@ flogsfront:
 flogsback:
 			${DOCKER} logs --tail 40 -ft backend
 flogspostg:
-			${DOCKER} logs --tail 40 -ft db
+			${DOCKER} logs --tail 40 -ft postgres
 flogsnginx:
 			${DOCKER} logs --tail 40 -ft nginx
 
@@ -56,16 +56,16 @@ refront:
 reback:
 			${DOCKER} restart backend
 repostg:
-			${DOCKER} restart db
+			${DOCKER} restart postgres
 
 # info:
-# 			${DOCKER} exec flyway bash /flyway/sql/_myflyway.sh info
-# migrate:
-# 			${DOCKER} exec flyway bash /flyway/sql/_myflyway.sh migrate
+# 			${DOCKER} exec 
+migrate:
+			${DOCKER} exec backend bash alembic -c alembic.ini upgrade head
 # repair:
-# 			${DOCKER} exec flyway bash /flyway/sql/_myflyway.sh repair
+# 			${DOCKER} exec 
 # revert:
-# 			${DOCKER} exec flyway bash /flyway/sql/_myflyway.sh undo
+# 			${DOCKER} exec 
 
 runfront:
 			${DOCKER} exec frontend bash
