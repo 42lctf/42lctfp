@@ -1,0 +1,45 @@
+
+version: '3.8'
+
+services:
+
+  backend:
+    restart: "always"
+    command: bash -c "alembic -c alembic.ini upgrade head && uvicorn app.main:app --workers 1 --host 0.0.0.0 --port 8000"
+
+    environment:
+      BUILD_TYPE: "PROD" 
+
+
+  postgres:
+    restart: "always"
+    environment:
+      BUILD_TYPE: "PROD" 
+
+
+  adminer:
+    restart: "always"
+    environment:
+      BUILD_TYPE: "PROD" 
+
+
+  frontend:
+    restart: "no"
+    environment:
+      BUILD_TYPE: "PROD" 
+
+    build: 
+      dockerfile: Dockerfile-prod
+
+  nginx:
+    build: 
+      context: .
+      dockerfile: ./_build/nginx/Dockerfile-prod
+
+    restart: "always"
+    environment:
+      BUILD_TYPE: "PROD" 
+
+    ports:
+      - "8082:80"
+

@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+
+  backend:
+    restart: "no"
+    command: bash -c "alembic -c alembic.ini upgrade head && uvicorn app.main:app --reload --workers 1 --host 0.0.0.0 --port 8000"
+
+    ports:
+      - 8004:8000
+
+    environment:
+      BUILD_TYPE: "DEV" 
+
+    stdin_open: true
+    tty: true
+
+
+  postgres:
+    restart: "no"
+    environment:
+      BUILD_TYPE: "DEV" 
+
+    ports:
+      - 5432:5432
+
+
+  adminer:
+    restart: "no"
+    environment:
+      BUILD_TYPE: "DEV"
+
+    ports:
+      - 8081:8080
+
+
+  frontend:
+    restart: "no"
+    environment:
+      BUILD_TYPE: "DEV" 
+
+    stdin_open: true
+    tty: true
+
+
+  nginx:
+    restart: "no"
+    environment:
+      BUILD_TYPE: "DEV" 
+
+    stdin_open: true
+    tty: true
+
+    ports:
+      - "8080:80"
+
+
