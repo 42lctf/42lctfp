@@ -3,12 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 
 export function AuthCallback() {
-    let code = window.location.href.split("code=")[1];
+    const code = window.location.href.split("code=")[1];
 
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch("http://localhost:8004/api/v1/users/auth/callback?code="+code, {
+        fetch("/api/v1/users/auth/callback?code="+code, {
             method: "GET",
             headers: {
                 "accept": "application/json"
@@ -23,7 +23,7 @@ export function AuthCallback() {
         .catch(error => {
             console.log("ERROR: ", error);
         })
-    }, [])
+    }, [code, navigate])
 
     return (
         <div>

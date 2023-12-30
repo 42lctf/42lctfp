@@ -2,14 +2,14 @@ import { useEffect, useState } from "react"
 import Cookies from 'js-cookie';
 
 export function HomePage() {
-    let [nickname, setNickname] = useState("");
+    const [nickname, setNickname] = useState("");
 
     useEffect(() => {
         const token = Cookies.get("access_token")
         if (!token) {
             return
         }
-        const url = `http://localhost:8004/api/v1/users/me?token=${encodeURIComponent(token)}`;
+        const url = `/api/v1/users/me?token=${encodeURIComponent(token)}`;
         fetch(url, {
             method: "GET",
             headers: {
