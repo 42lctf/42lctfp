@@ -23,6 +23,7 @@ app.add_middleware(
 
 app.include_router(UserRouter, prefix="/api/v1/users", tags=["users"])
 
+
 @app.get("/ping")
 async def pong():
     return {"ping": "pong!"}
