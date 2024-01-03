@@ -17,6 +17,7 @@ UserRouter = APIRouter()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 
+# TEST endpoint
 @UserRouter.get('/me')
 async def get_me(token: str, db: Session = Depends(get_session)):
     user = get_user_by_token(db, token)
@@ -56,3 +57,9 @@ async def auth_callback(code: str, db: Session = Depends(get_session)):
         "refresh_token": refresh_token,
         "token_type": "bearer"
     }
+
+
+@UserRouter.get('/auth/refresh_token', status_code=status.HTTP_200_OK)
+async def refresh_token(token: str, db: Session = Depends(get_session)):
+    token = refresh_token(token, db)
+    return {"refresh_token": token}

@@ -58,7 +58,7 @@ async def user_auth_callback_service(code, db):
 
 def get_user_by_token(db: Session, token: str):
     try:
-        payload = jwt.decode(token, JWT_REFRESH_SECRET_KEY, algorithms=[ALGORITHM])
+        payload = jwt.decode(token, JWT_SECRET_KEY, algorithms=[ALGORITHM])
     except JWTError:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
@@ -67,3 +67,23 @@ def get_user_by_token(db: Session, token: str):
         )
     id_user: str = payload.get("sub")
     return get_user(db, id_user)
+
+
+def refresh_token(token: str, db: Session):
+    payload = jwt.decode(token, JWT_REFRESH_SECRET_KEY, algorithms=[ALGORITHM])
+    user_id = payload.get('sub')
+    if user_id is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Could not validate credentials",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    refresh_token_exp = payload.get('exp')
+    if datetime.utcnow() > datetime.fromtimestamp(refresh_token_exp):
+        raise HTTPException(
+            status_code=status.HTTP_425_TOO_EARLY,
+            detail="Token is not expired",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    token = create_token(data={"sub": user_id})
+    return token
