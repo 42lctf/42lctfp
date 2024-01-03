@@ -120,17 +120,20 @@ def get_data_from_intra(token):
     response = requests.get('https://api.intra.42.fr/v2/me', headers=headers)
     user_id = response.json()['id']
     nickname = response.json()['login']
-    campus = response.json()['campus_users']
-    campus_info = list(filter(lambda x: x['is_primary'], campus))[0]
+    campus_user = response.json()['campus_users']
+    campus_info = list(filter(lambda x: x['is_primary'], campus_user))[0]
     campus_id = campus_info['campus_id'] if 'campus_id' in campus_info else None
     email = response.json()['email']
 
-    return {'user_id': user_id, 'nickname': nickname, 'campus_id': campus_id, 'email': email}
+    campus = response.json()['campus']
+    campus_obj = list(filter(lambda x: x['id'] == campus_id, campus))
+
+    return {'user_id': user_id, 'nickname': nickname, 'email': email, 'campus': campus_obj}
 
 
 def create_user(data, db: Session = Depends(get_session)):
     user = db.query(User).filter(User.intra_id == data['user_id']).first()
-    campus_t = get_or_create_campus(data['campus_id'], db)
+    campus_t = get_or_create_campus(data['campus'], db)
     if not user:
         user_name = db.query(User).filter(User.nickname == data['nickname']).first()
         if user_name:

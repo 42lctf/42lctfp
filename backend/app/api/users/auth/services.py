@@ -46,7 +46,8 @@ async def user_login_service(user_credentials, db):
 async def user_auth_callback_service(code, db):
     token_intra = get_token_from_intra(code)
     data = get_data_from_intra(token_intra)
-    if data['campus_id'] != 47:
+
+    if data['campus'][0]['id'] != 47:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="This platform is not opened for your campus YET!"
