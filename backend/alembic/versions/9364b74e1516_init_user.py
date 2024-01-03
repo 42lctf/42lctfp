@@ -42,7 +42,7 @@ def upgrade() -> None:
         sa.Column('is_hidden', sa.Boolean(), default=False, nullable=False),
         sa.Column('is_verified', sa.Boolean(), default=False, nullable=False),
         sa.Column('is_2fa_enabled', sa.Boolean(), default=False, nullable=False),
-        sa.Column('2fa_token', sa.String(length=50), nullable=True),
+        sa.Column('tfa_token', sa.String(length=50), nullable=True),
         sa.Column('campus_id', UUID(as_uuid=True), sa.ForeignKey('campus.id'), nullable=True),
         sa.Column('created_at', sa.DateTime(), default=datetime.now()),
         sa.Column('updated_at', sa.DateTime(), default=datetime.now()),
@@ -77,15 +77,6 @@ def upgrade() -> None:
     )
 
     op.create_table(
-        'challenge_author',
-        sa.Column('id', UUID(as_uuid=True), primary_key=True, nullable=False),
-        sa.Column('challenge_id', UUID(as_uuid=True), sa.ForeignKey('challenges.id'), nullable=True),
-        sa.Column('user_id', UUID(as_uuid=True), sa.ForeignKey('ctf_users.id'), nullable=False),
-        sa.Column('created_at', sa.DateTime(), default=datetime.now()),
-        sa.Column('updated_at', sa.DateTime(), default=datetime.now()),
-    )
-
-    op.create_table(
         'challenges',
         sa.Column('id', UUID(as_uuid=True), primary_key=True, nullable=False),
         sa.Column('title', sa.String(length=50), nullable=False),
@@ -97,6 +88,15 @@ def upgrade() -> None:
         sa.Column('flag_case_sensitive', sa.Boolean(), default=False),
         sa.Column('parent_id', UUID(as_uuid=True), sa.ForeignKey('challenges.id'), nullable=False),
         sa.Column('category_id', UUID(as_uuid=True), sa.ForeignKey('categories.id'), nullable=False),
+        sa.Column('created_at', sa.DateTime(), default=datetime.now()),
+        sa.Column('updated_at', sa.DateTime(), default=datetime.now()),
+    )
+
+    op.create_table(
+        'challenge_author',
+        sa.Column('id', UUID(as_uuid=True), primary_key=True, nullable=False),
+        sa.Column('challenge_id', UUID(as_uuid=True), sa.ForeignKey('challenges.id'), nullable=True),
+        sa.Column('user_id', UUID(as_uuid=True), sa.ForeignKey('ctf_users.id'), nullable=False),
         sa.Column('created_at', sa.DateTime(), default=datetime.now()),
         sa.Column('updated_at', sa.DateTime(), default=datetime.now()),
     )

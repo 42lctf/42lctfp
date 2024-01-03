@@ -140,11 +140,12 @@ def create_user(data, db: Session = Depends(get_session)):
             id=uuid4(),
             email=data['email'],
             nickname=data['nickname'],
-            campus=campus_t.id,
+            campus_id=campus_t.id,
             intra_id=data['user_id'],
             is_admin=False,
             is_hidden=False,
             is_verified=True,
+            is_2fa_enabled=False,
             created_at=datetime.now(),
             updated_at=datetime.now()
         )
