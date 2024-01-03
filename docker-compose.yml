@@ -3,34 +3,99 @@ version: '3.8'
 services:
 
   backend:
-    build: ./backend
-    command: bash -c "alembic -c alembic.ini upgrade head && uvicorn app.main:app --reload --workers 1 --host 0.0.0.0 --port 8000"
+    build: ./_build/backend
+    
     volumes:
+      - /etc/localtime:/etc/localtime:ro
       - ./backend:/usr/src/app
-    ports:
-      - 8004:8000
-    env_file:
-      - ./backend/.env
-    #environment:
-      #- DATABASE_URL=postgresql+asyncpg://postgres:postgres@db:5432/foo
+
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      DATABASE_HOST: ${DATABASE_HOST}
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_USER: ${DATABASE_USER}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      DATABASE_PORT: ${DATABASE_PORT}
+
+      AUTH_CLIENT_ID: ${AUTH_CLIENT_ID}
+      AUTH_CLIENT_SECRET: ${AUTH_CLIENT_SECRET}
+      REDIRECT_AUTH_URL: ${REDIRECT_AUTH_URL}
+
     depends_on:
       - postgres
+
+    networks:
+      - back
+
 
   postgres:
     image: postgres:15.3
     expose:
       - 5432
-    # TODO remove these
+
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - main_db:/var/lib/postgresql/data/
+
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=ctf_db
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+
+    networks:
+      - back
+
 
   adminer:
     image: adminer
-    restart: always
-    ports:
-      - 8080:8080
+    
     depends_on:
       - postgres
-    
+
+    environment:
+      ADMINER_DEFAULT_SERVER: postgres
+
+    networks:
+      - back
+
+
+  frontend:
+    build: ./_build/frontend
+
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./frontend:/app
+
+    environment:
+      VITE_FT_CID: ${AUTH_CLIENT_ID}
+      VITE_REDIRECT_URI: ${REDIRECT_AUTH_URL}
+
+    networks:
+      - front
+
+    working_dir: /app
+
+
+  nginx:
+    build: 
+      context: .
+      dockerfile: ./_build/nginx/Dockerfile
+
+    depends_on:
+      - frontend
+      - backend
+
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+
+    networks:
+      - front
+      - back
+
+
+networks:
+  front:
+  back:
+
+volumes:
+  main_db:
