@@ -2,6 +2,7 @@ from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy import Column, String, Integer, Boolean, DateTime, ForeignKey
 # from sqlalchemy.orm import relationship
 from app.db import Base
+from datetime import datetime
 
 
 class User(Base):
@@ -19,8 +20,8 @@ class User(Base):
     is_2fa_enabled = Column(Boolean(), nullable=False)
     tfa_token = Column(String(length=50), nullable=True)
     campus_id = Column(UUID(as_uuid=True), ForeignKey("campus.id"), nullable=True)
-    created_at = Column(DateTime(), nullable=False)
-    updated_at = Column(DateTime(), nullable=False)
+    created_at = Column(DateTime(), default=datetime.now(), nullable=False)
+    updated_at = Column(DateTime(), default=datetime.now(), nullable=False)
 
     class Config:
         orm_mode = True
