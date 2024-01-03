@@ -8,7 +8,7 @@ import os
 from dotenv import load_dotenv
 from sqlalchemy.orm import Session
 from .auth.schemas import UserRegistrationRequest, UserLoginRequest
-from .auth.services import user_registration_service, user_login_service, user_auth_callback_service
+from .auth.services import user_registration_service, user_login_service, user_auth_callback_service, get_user_by_token
 
 load_dotenv()
 
@@ -19,7 +19,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 @UserRouter.get('/me')
 async def get_me(token: str, db: Session = Depends(get_session)):
-    user = services.get_user_by_token(db, token)
+    user = get_user_by_token(db, token)
     return user
 
 
@@ -32,8 +32,13 @@ async def user_registration(user_credentials: UserRegistrationRequest, db: Sessi
 
 @UserRouter.post('/login', status_code=status.HTTP_200_OK)
 async def user_login(user_credentials: UserLoginRequest, db: Session = Depends(get_session)):
-    token = await user_login_service(user_credentials, db)
-    return {"access_token": token, "token_type": "bearer"}
+    access_token, refresh_token = await user_login_service(user_credentials, db)
+    print(refresh_token)
+    return {
+        "access_token": access_token,
+        "refresh_token": refresh_token,
+        "token_type": "bearer"
+    }
 
 
 @UserRouter.get('/auth/authorize', response_class=RedirectResponse, status_code=status.HTTP_302_FOUND)
@@ -45,5 +50,9 @@ async def auth_authorize():
 
 @UserRouter.get('/auth/callback', status_code=status.HTTP_200_OK)
 async def auth_callback(code: str, db: Session = Depends(get_session)):
-    token = await user_auth_callback_service(code, db)
-    return {"access_token": token, "token_type": "bearer"}
+    access_token, refresh_token = await user_auth_callback_service(code, db)
+    return {
+        "access_token": access_token,
+        "refresh_token": refresh_token,
+        "token_type": "bearer"
+    }

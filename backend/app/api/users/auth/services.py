@@ -1,6 +1,3 @@
-# from fastapi import HTTPException, status
-# from ..models import User
-from uuid import uuid4
 from sqlalchemy import or_
 from .utils import *
 
@@ -17,7 +14,6 @@ async def user_registration_service(credentials, db):
         is_admin=False,
         is_hidden=False,
         is_verified=False,
-        created_at=credentials.created_at
     )
     db.add(new_user)
     db.commit()
@@ -40,7 +36,9 @@ async def user_login_service(user_credentials, db):
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid password"
         )
-    return create_token(data={"sub": str(user.id)}, t="access")
+    access_token = create_token(data={"sub": str(user.id)}, t="access")
+    refresh_token = create_token(data={"sub": str(user.id)})
+    return access_token, refresh_token
 
 
 async def user_auth_callback_service(code, db):
@@ -53,4 +51,19 @@ async def user_auth_callback_service(code, db):
             detail="This platform is not opened for your campus YET!"
         )
     user = create_user(data, db)
-    return create_token(data={"sub": str(user.id)}, t="access")
+    access_token = create_token(data={"sub": str(user.id)}, t="access")
+    refresh_token = create_token(data={"sub": str(user.id)})
+    return access_token, refresh_token
+
+
+def get_user_by_token(db: Session, token: str):
+    try:
+        payload = jwt.decode(token, JWT_REFRESH_SECRET_KEY, algorithms=[ALGORITHM])
+    except JWTError:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Could not validate credentials",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    id_user: str = payload.get("sub")
+    return get_user(db, id_user)

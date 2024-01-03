@@ -8,10 +8,10 @@ from jose import JWTError, jwt
 from passlib.context import CryptContext
 from fastapi import HTTPException, status, Depends
 from sqlmodel import Session
-from uuid import uuid4
 from app.db import get_session
 from ..models import User
 from app.api.campus.utils import get_or_create_campus
+from uuid import uuid4, UUID
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -155,5 +155,17 @@ def create_user(data, db: Session = Depends(get_session)):
         db.add(user)
         db.commit()
         db.refresh(user)
-        # user = db.query(User).filter(User.intra_id == data[0]).first()
     return user
+
+
+def get_user(db: Session, id_user: str):
+    try:
+        id_user = UUID(id_user).hex
+    except ValueError:
+        raise ValueError("Invalid UUID")
+
+    user = db.query(User).filter(User.id == id_user).first()
+    return user
+
+
+

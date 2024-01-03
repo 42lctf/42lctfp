@@ -5,7 +5,7 @@ export function HomePage() {
     const [nickname, setNickname] = useState("");
 
     useEffect(() => {
-        const token = Cookies.get("access_token")
+        const token = Cookies.get("refresh_token")
         if (!token) {
             return
         }
@@ -18,7 +18,6 @@ export function HomePage() {
         })
         .then(response => response.json())
         .then(data => {
-            console.log(data);
             setNickname(data.nickname);
         })
         .catch(error => {

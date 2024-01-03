@@ -18,6 +18,7 @@ export function AuthCallback() {
         .then(data => {
             // TODO fix this shit if the response is not 200;
             Cookies.set("access_token", data.access_token);
+            Cookies.set("refresh_token", data.refresh_token);
             navigate("/");
         })
         .catch(error => {
