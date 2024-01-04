@@ -1,39 +1,28 @@
-import { useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie';
+import { useCallback, useEffect, useRef } from 'react';
+import { axiosClient } from '@/services/axiosInstance';
+import { useAuth } from '@/providers/AuthProvider';
 
 export function AuthCallback() {
-    const code = window.location.href.split("code=")[1];
+    const { login } = useAuth();
+    const code = window.location.href.split('code=')[1];
     const renderAfterCalled = useRef(false);
 
-    const navigate = useNavigate();
+    const handleAuthorize = useCallback(async () => {
+        await axiosClient.get(`/users/auth/callback?code=${code}`);
+        login();
+    }, [code, login]);
 
     useEffect(() => {
-        if (!renderAfterCalled.current) {
-            fetch(`/api/v1/users/auth/callback?code=${code}`, {
-                method: "GET",
-                headers: {
-                    "accept": "application/json"
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                // TODO fix this shit if the response is not 200;
-                Cookies.set("access_token", data.access_token);
-                Cookies.set("refresh_token", data.refresh_token);
-                navigate("/");
-            })
-            .catch(error => {
-                console.log("ERROR: ", error);
-            })
+        if (renderAfterCalled.current) {
+            return;
         }
-
+        handleAuthorize();
         renderAfterCalled.current = true;
-    }, [code, navigate])
+    }, [code, handleAuthorize, login]);
 
     return (
         <div>
             <h1>Waiting...</h1>
         </div>
-    )
+    );
 }

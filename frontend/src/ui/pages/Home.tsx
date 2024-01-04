@@ -1,35 +1,12 @@
-import { Login } from './Login';
-import { HomePage } from './HomePage';
-import Cookies from 'js-cookie';
-import { useEffect, useState } from 'react';
+import { useAuth } from '@/providers/AuthProvider';
+import { isDef } from '@/technical/isDef';
 
 export function Home() {
-
-    const [nickname, setNickname] = useState('');
-
-
-    useEffect(() => {
-        const url = '/api/v1/users/me';
-        fetch(url, {
-            method: 'GET',
-            headers: {
-                'accept': 'application/json',
-                credentials: 'include',
-            },
-        })
-            .then(async (response) => {
-                if (response.status === 200) {
-                    setNickname((await response.json()).nickname);
-                }
-            })
-            .catch((error) => {
-                console.log('ERROR: ', error);
-            });
-    }, []);
+    const { user } = useAuth();
 
     return (
         <div>
-            {nickname.length > 0 ? <HomePage nickname={nickname} /> : <Login />}
+            <h1>Welcome {isDef(user) ? user.nickname : 'guest'}</h1>
         </div>
     );
 }
