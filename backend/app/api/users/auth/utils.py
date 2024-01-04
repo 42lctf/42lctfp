@@ -35,7 +35,6 @@ def hash_password(password):
 
 
 def password_validation(password: str):
-    sym = ['@', '#', '$', '%']
 
     if len(password) < 6:
         return "Password length must be greater than 6 characters", False
@@ -45,8 +44,8 @@ def password_validation(password: str):
         return "Password should contain at least 1 upper character", False
     if not any(char.islower() for char in password):
         return "Password must contain at least 1 lower character", False
-    if not any(char in sym for char in password):
-        return "Password must contain at least 1 symbol [@, #, $, %]", False
+    if not any((char.isprintable() and not char.isalnum()) for char in password):
+        return "Password must contain at least 1 symbol", False
     return "", True
 
 
@@ -109,6 +108,7 @@ def get_token_from_intra(code):
         'redirect_uri': os.getenv('REDIRECT_AUTH_URL')
     }
     response = requests.post('https://api.intra.42.fr/oauth/token', data=data)
+    print(response.json(), data)
     auth_token = response.json()['access_token']
     return auth_token
 
@@ -119,16 +119,26 @@ def get_data_from_intra(token):
     }
     response = requests.get('https://api.intra.42.fr/v2/me', headers=headers)
     user_id = response.json()['id']
-    nickname = response.json()['login']
-    campus_user = response.json()['campus_users']
-    campus_info = list(filter(lambda x: x['is_primary'], campus_user))[0]
-    campus_id = campus_info['campus_id'] if 'campus_id' in campus_info else None
     email = response.json()['email']
+    nickname = response.json()['login']
+    try:
+        selected_title = next(filter(lambda x: x['selected'], response.json()['titles_users']), None)
+
+        if (title is not None):
+            title = next(filter(lambda x: selected_title['id'] == x['id'], response.json()['titles']), None)
+                
+            nickname = title['name'].replace('%login', nickname)
+    except:
+        pass
+
+    campus_users = response.json()['campus_users']
+    campus_info = next(filter(lambda x: x['is_primary'], campus_users), None)
+    campus_id = campus_info['campus_id'] if (campus_info != None) else None
 
     campus = response.json()['campus']
-    campus_obj = list(filter(lambda x: x['id'] == campus_id, campus))
+    campus_obj = next(filter(lambda x: (campus_id != None and x['id'] == campus_id), campus), None)
 
-    return {'user_id': user_id, 'nickname': nickname, 'email': email, 'campus': campus_obj}
+    return {'user_id': user_id, 'nickname': nickname, 'email': email, 'campus': campus_obj }
 
 
 def create_user(data, db: Session = Depends(get_session)):
