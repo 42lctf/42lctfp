@@ -1,8 +1,6 @@
-import os
 import re
 import requests
 
-from dotenv import load_dotenv
 from datetime import datetime, timedelta
 from jose import jwt
 from passlib.context import CryptContext
@@ -13,7 +11,7 @@ from app.api.users.models import User
 from app.api.campus.utils import get_or_create_campus
 from uuid import uuid4
 
-from ..env_utils import *
+from app.env_utils import *
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
