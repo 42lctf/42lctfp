@@ -1,3 +1,4 @@
+from jose import JWTError
 from sqlalchemy import or_
 from app.api.users.auth.utils import *
 
@@ -54,19 +55,6 @@ def user_auth_callback_service(code, db):
     access_token = create_token(data={"sub": str(user.id)}, t="access")
     refresh_token = create_token(data={"sub": str(user.id)})
     return access_token, refresh_token
-
-
-# def get_user_by_token(db: Session, token: str):
-#     try:
-#         payload = jwt.decode(token, JWT_REFRESH_SECRET_KEY, algorithms=[ALGORITHM])
-#     except JWTError:
-#         raise HTTPException(
-#             status_code=status.HTTP_403_FORBIDDEN,
-#             detail="Could not validate credentials",
-#             headers={"WWW-Authenticate": "Bearer"},
-#         )
-#     id_user: str = payload.get("sub")
-#     return get_user(db, id_user)
 
 
 def create_refresh_token(token: str, db: Session):
