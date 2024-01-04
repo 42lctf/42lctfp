@@ -35,7 +35,6 @@ def hash_password(password):
 
 
 def password_validation(password: str):
-
     if len(password) < 6:
         return "Password length must be greater than 6 characters", False
     if not any(char.isdigit() for char in password):
@@ -123,21 +122,21 @@ def get_data_from_intra(token):
     try:
         selected_title = next(filter(lambda x: x['selected'], response.json()['titles_users']), None)
 
-        if (title is not None):
+        if selected_title is not None:
             title = next(filter(lambda x: selected_title['id'] == x['id'], response.json()['titles']), None)
-                
+
             nickname = title['name'].replace('%login', nickname)
     except:
         pass
 
     campus_users = response.json()['campus_users']
     campus_info = next(filter(lambda x: x['is_primary'], campus_users), None)
-    campus_id = campus_info['campus_id'] if (campus_info != None) else None
+    campus_id = campus_info['campus_id'] if (campus_info is not None) else None
 
     campus = response.json()['campus']
-    campus_obj = next(filter(lambda x: (campus_id != None and x['id'] == campus_id), campus), None)
+    campus_obj = next(filter(lambda x: (campus_id is not None and x['id'] == campus_id), campus), None)
 
-    return {'user_id': user_id, 'nickname': nickname, 'email': email, 'campus': campus_obj }
+    return {'user_id': user_id, 'nickname': nickname, 'email': email, 'campus': campus_obj}
 
 
 def create_user(data, db: Session = Depends(get_session)):
