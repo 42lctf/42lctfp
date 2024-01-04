@@ -20,3 +20,26 @@ class Challenge(Base):
 
     class Config:
         orm_mode = True
+
+class Categorie(Base):
+    __tablename__ = "categories"
+    id = Column(UUID(as_uuid=True), primary_key=True, index=True)
+    display_order = Column(Integer(), nullable=False)
+    name = Column(String(50), nullable=False)
+    created_at = Column(DateTime(), default=datetime.now(), nullable=False)
+    updated_at = Column(DateTime(), default=datetime.now(), nullable=False)
+
+    class Config:
+        orm_mode = True
+
+
+class Difficultie(Base):
+    __tablename__ = "difficulties"
+    id = Column(UUID(as_uuid=True), primary_key=True, index=True)
+    level = Column(Integer(), nullable=False)
+    name = Column(String(50), nullable=False)
+    created_at = Column(DateTime(), default=datetime.now(), nullable=False)
+    updated_at = Column(DateTime(), default=datetime.now(), nullable=False)
+
+    class Config:
+        orm_mode = True

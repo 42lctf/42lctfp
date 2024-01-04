@@ -25,3 +25,12 @@ class User(Base):
 
     class Config:
         orm_mode = True
+
+class ChallengeAuthors(Base):
+    __tablename__ = "challenge_authors"
+    id = Column(UUID(as_uuid=True), primary_key=True, index=True)
+    challenge_id = Column(UUID(as_uuid=True), ForeignKey("challenge.id"), nullable=False)
+    user_id = Column(UUID(as_uuid=True), ForeignKey("ctf_users.id"), nullable=False)
+    created_at = Column(DateTime(), default=datetime.now(), nullable=False)
+    updated_at = Column(DateTime(), default=datetime.now(), nullable=False)
+
