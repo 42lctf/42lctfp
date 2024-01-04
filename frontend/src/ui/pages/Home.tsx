@@ -1,35 +1,13 @@
-import { Login } from './Login';
-import { HomePage } from './HomePage';
-import Cookies from 'js-cookie';
-import { useEffect, useState } from 'react';
+import { Login } from "./Login";
+import { HomePage } from "./HomePage";
+import { useAuth } from "@/providers/AuthProvider";
 
 export function Home() {
-
-    const [nickname, setNickname] = useState('');
-
-
-    useEffect(() => {
-        const url = '/api/v1/users/me';
-        fetch(url, {
-            method: 'GET',
-            headers: {
-                'accept': 'application/json',
-                credentials: 'include',
-            },
-        })
-            .then(async (response) => {
-                if (response.status === 200) {
-                    setNickname((await response.json()).nickname);
-                }
-            })
-            .catch((error) => {
-                console.log('ERROR: ', error);
-            });
-    }, []);
+    const { isLogged } = useAuth()
 
     return (
         <div>
-            {nickname.length > 0 ? <HomePage nickname={nickname} /> : <Login />}
+            {isLogged ? <HomePage /> : <Login />}
         </div>
     );
 }

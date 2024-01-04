@@ -1,9 +1,12 @@
 import { Router } from "./components/Router"
+import { Providers } from "./providers"
 
 function App() {
 
   return (
-    <Router />
+    <Providers>
+      <Router />
+    </Providers>
   )
 }
 
