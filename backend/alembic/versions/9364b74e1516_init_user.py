@@ -93,7 +93,7 @@ def upgrade() -> None:
     )
 
     op.create_table(
-        'challenge_author',
+        'challenge_authors',
         sa.Column('id', UUID(as_uuid=True), primary_key=True, nullable=False),
         sa.Column('challenge_id', UUID(as_uuid=True), sa.ForeignKey('challenges.id'), nullable=True),
         sa.Column('user_id', UUID(as_uuid=True), sa.ForeignKey('ctf_users.id'), nullable=False),
@@ -108,6 +108,7 @@ def upgrade() -> None:
         sa.Column('user_id', UUID(as_uuid=True), sa.ForeignKey('ctf_users.id'), nullable=False),
         sa.Column('content', sa.String(length=100), nullable=False),
         sa.Column("ip", sa.String(length=46), nullable=True),
+        sa.Column("correct", sa.Boolean(), nullable=False),
         sa.Column('created_at', sa.DateTime(), default=datetime.now()),
         sa.Column('updated_at', sa.DateTime(), default=datetime.now()),
     )
