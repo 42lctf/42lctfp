@@ -45,7 +45,7 @@ def user_auth_callback_service(code, db):
     token_intra = get_token_from_intra(code)
     data = get_data_from_intra(token_intra)
 
-    if data['campus'] != None and data['campus']['id'] == 47:
+    if data['campus'] == None or data['campus']['id'] != 47:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="This platform is not opened for your campus YET!"

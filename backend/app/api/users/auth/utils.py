@@ -108,7 +108,6 @@ def get_token_from_intra(code):
         'redirect_uri': os.getenv('REDIRECT_AUTH_URL')
     }
     response = requests.post('https://api.intra.42.fr/oauth/token', data=data)
-    print(response.json(), data)
     auth_token = response.json()['access_token']
     return auth_token
 

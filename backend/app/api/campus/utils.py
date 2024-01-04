@@ -6,13 +6,13 @@ from uuid import uuid4
 
 
 def get_or_create_campus(cmp, db: Session = Depends(get_session)):
-    campus = db.query(Campus).filter(Campus.campus_id == cmp[0]['id']).first()
+    campus = db.query(Campus).filter(Campus.campus_id == cmp['id']).first()
     if not campus:
         campus = Campus(
             id=uuid4(),
-            campus_id=cmp[0]['id'],
-            name=cmp[0]['name'],
-            country=cmp[0]['country']
+            campus_id=cmp['id'],
+            name=cmp['name'],
+            country=cmp['country']
         )
         db.add(campus)
         db.commit()

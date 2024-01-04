@@ -34,7 +34,6 @@ async def user_registration(user_credentials: UserRegistrationRequest, db: Sessi
 @UserRouter.post('/login', status_code=status.HTTP_200_OK)
 async def user_login(user_credentials: UserLoginRequest, db: Session = Depends(get_session)):
     access_token, refresh_token = services.user_login_service(user_credentials, db)
-    print(refresh_token)
     return {
         "access_token": access_token,
         "refresh_token": refresh_token,
