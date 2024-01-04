@@ -1,5 +1,5 @@
 from sqlalchemy import or_
-from .utils import *
+from app.api.users.auth.utils import *
 
 
 async def user_registration_service(credentials, db):
@@ -45,7 +45,7 @@ def user_auth_callback_service(code, db):
     token_intra = get_token_from_intra(code)
     data = get_data_from_intra(token_intra)
 
-    if data['campus'] == None or data['campus']['id'] != 47:
+    if data['campus'] is None or data['campus']['id'] != 47:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="This platform is not opened for your campus YET!"
@@ -56,25 +56,25 @@ def user_auth_callback_service(code, db):
     return access_token, refresh_token
 
 
-def get_user_by_token(db: Session, token: str):
-    try:
-        payload = jwt.decode(token, JWT_REFRESH_SECRET_KEY, algorithms=[ALGORITHM])
-    except JWTError:
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Could not validate credentials",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-    id_user: str = payload.get("sub")
-    return get_user(db, id_user)
+# def get_user_by_token(db: Session, token: str):
+#     try:
+#         payload = jwt.decode(token, JWT_REFRESH_SECRET_KEY, algorithms=[ALGORITHM])
+#     except JWTError:
+#         raise HTTPException(
+#             status_code=status.HTTP_403_FORBIDDEN,
+#             detail="Could not validate credentials",
+#             headers={"WWW-Authenticate": "Bearer"},
+#         )
+#     id_user: str = payload.get("sub")
+#     return get_user(db, id_user)
 
 
 def create_refresh_token(token: str, db: Session):
     http_exception = HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Could not validate credentials",
-                headers={"WWW-Authenticate": "Bearer"},
-            )
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
     try:
         payload = jwt.decode(token, JWT_SECRET_KEY, algorithms=[ALGORITHM])
         user_id = payload.get('sub')

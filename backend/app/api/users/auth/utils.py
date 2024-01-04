@@ -4,26 +4,20 @@ import requests
 
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
-from jose import JWTError, jwt
+from jose import jwt
 from passlib.context import CryptContext
 from fastapi import HTTPException, status, Depends
 from sqlmodel import Session
 from app.db import get_session
-from ..models import User
+from app.api.users.models import User
 from app.api.campus.utils import get_or_create_campus
-from uuid import uuid4, UUID
+from uuid import uuid4
+
+from ..env_utils import *
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 load_dotenv()
-
-# We can use 'openssl rand -hex 32'
-JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY')
-JWT_REFRESH_SECRET_KEY = os.getenv('JWT_REFRESH_SECRET_KEY')
-
-ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7  # 7 days
-REFRESH_TOKEN_EXPIRE_MINUTES = 15  # 15 minutes
-ALGORITHM = "HS256"
 
 
 def verify_password(plain_password, hashed_pass):
@@ -163,14 +157,4 @@ def create_user(data, db: Session = Depends(get_session)):
         db.add(user)
         db.commit()
         db.refresh(user)
-    return user
-
-
-def get_user(db: Session, id_user: str):
-    try:
-        id_user = UUID(id_user).hex
-    except ValueError:
-        raise ValueError("Invalid UUID")
-
-    user = db.query(User).filter(User.id == id_user).first()
     return user
