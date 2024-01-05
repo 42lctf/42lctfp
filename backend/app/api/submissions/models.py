@@ -4,9 +4,9 @@ from app.db import Base
 from datetime import datetime
 
 class Submission(Base):
-    __tablename__ = "challenges"
+    __tablename__ = "submissions"
     id = Column(UUID(as_uuid=True), primary_key=True, index=True)
-    challenge_id = Column(UUID(as_uuid=True), ForeignKey("challenge.id"), nullable=True)
+    challenge_id = Column(UUID(as_uuid=True), ForeignKey("challenge.id"), nullable=False)
     user_id = Column(UUID(as_uuid=True), ForeignKey("ctf_users.id"), nullable=False)
     content = Column(String(100), nullable=False)
     ip = Column(String(46), nullable=False)
