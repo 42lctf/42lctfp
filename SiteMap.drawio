@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2024-01-05T14:38:41.037Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/119.0" etag="2BlLNHGhpH3SiplrXlow" version="22.1.16" type="github">
+<mxfile host="app.diagrams.net" modified="2024-01-05T14:58:39.902Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/119.0" etag="d_OBK32rEE78bYBsberO" version="22.1.16" type="github">
   <diagram name="Page-1" id="G05O5_YYgxqbt6i5roDU">
-    <mxGraphModel dx="3892" dy="3417" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1760" dy="2115" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -35,7 +35,7 @@
           <mxGeometry x="515" y="240" width="180" height="100" as="geometry" />
         </mxCell>
         <mxCell id="OtI3DSjAlYHmoeJ0P0GL-52" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;[&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;&quot;&gt;&#x9;&lt;/span&gt;{&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;&quot;&gt;&#x9;&lt;/span&gt;&lt;span style=&quot;&quot;&gt;&#x9;&lt;/span&gt;&quot;category&quot;:&amp;nbsp; &quot;Misc&quot;,&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;&quot;&gt;&#x9;&lt;/span&gt;&lt;span style=&quot;&quot;&gt;&#x9;&quot;challenges&quot;: [&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;&quot;&gt;&lt;span style=&quot;&quot;&gt;&#x9;&lt;/span&gt;&lt;span style=&quot;&quot;&gt;&#x9;&lt;/span&gt;&#x9;&lt;/span&gt;{&lt;div&gt;&lt;span style=&quot;&quot;&gt;&#x9;&lt;/span&gt;&quot;chall_name&quot;: &quot;OSINT1&quot;,&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;&quot;&gt;&#x9;&lt;/span&gt;&quot;chall_value&quot;: 100,&lt;br&gt;&lt;/div&gt;&lt;div&gt;},&lt;/div&gt;&lt;div&gt;{&lt;div&gt;&lt;span style=&quot;&quot;&gt;&#x9;&lt;/span&gt;&quot;chall_name&quot;: &quot;OSINT2&quot;,&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;&quot;&gt;&#x9;&lt;/span&gt;&quot;chall_value&quot;: 200,&lt;br&gt;&lt;/div&gt;&lt;div&gt;}&lt;/div&gt;&lt;div&gt;],&lt;br&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;},&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;{&lt;div&gt;&#x9;&lt;span style=&quot;&quot;&gt;&#x9;&lt;/span&gt;&quot;category&quot;:&amp;nbsp; &quot;PWN&quot;,&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;&quot;&gt;&#x9;&lt;/span&gt;&lt;span style=&quot;&quot;&gt;&#x9;&quot;challenges&quot;: [&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;&quot;&gt;&lt;span style=&quot;&quot;&gt;&#x9;&lt;/span&gt;&lt;span style=&quot;&quot;&gt;&#x9;&lt;/span&gt;&#x9;&lt;/span&gt;{&lt;div&gt;&lt;span style=&quot;&quot;&gt;&#x9;&lt;/span&gt;&quot;chall_name&quot;: &quot;PWN1&quot;,&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;&quot;&gt;&#x9;&lt;/span&gt;&quot;chall_value&quot;: 100,&lt;br&gt;&lt;/div&gt;&lt;div&gt;},&lt;/div&gt;&lt;div&gt;{&lt;div&gt;&lt;span style=&quot;&quot;&gt;&#x9;&lt;/span&gt;&quot;chall_name&quot;: &quot;PWN2&quot;,&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;&quot;&gt;&#x9;&lt;/span&gt;&quot;chall_value&quot;: 200,&lt;br&gt;&lt;/div&gt;&lt;div&gt;}&lt;/div&gt;&lt;div&gt;],&lt;br&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;}&lt;/div&gt;&lt;div&gt;]&lt;br&gt;&lt;/div&gt;&lt;/div&gt;" style="text;html=1;strokeColor=#666666;fillColor=#f5f5f5;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontColor=#333333;" parent="1" vertex="1">
-          <mxGeometry x="975" y="10" width="260" height="430" as="geometry" />
+          <mxGeometry x="1070" y="10" width="260" height="430" as="geometry" />
         </mxCell>
         <mxCell id="OtI3DSjAlYHmoeJ0P0GL-53" value="&lt;div&gt;/challenges/:id&lt;br&gt;Single challenge model&lt;/div&gt;&lt;div&gt;form attempt =&amp;gt; toast&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
           <mxGeometry x="90" y="395" width="180" height="100" as="geometry" />
@@ -44,7 +44,7 @@
           <mxGeometry x="505" y="380" width="210" height="100" as="geometry" />
         </mxCell>
         <mxCell id="OtI3DSjAlYHmoeJ0P0GL-55" value="&lt;div&gt;POST /challenges/:chal_id/submit&lt;/div&gt;" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
-          <mxGeometry x="500" y="495" width="252.5" height="115" as="geometry" />
+          <mxGeometry x="462.5" y="495" width="252.5" height="115" as="geometry" />
         </mxCell>
         <mxCell id="OtI3DSjAlYHmoeJ0P0GL-56" value="" style="endArrow=classic;html=1;rounded=0;" parent="1" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
@@ -55,20 +55,20 @@
         <mxCell id="OtI3DSjAlYHmoeJ0P0GL-57" value="" style="endArrow=classic;html=1;rounded=0;" parent="1" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="310" y="449.5" as="sourcePoint" />
-            <mxPoint x="500" y="530" as="targetPoint" />
+            <mxPoint x="470" y="530" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="OtI3DSjAlYHmoeJ0P0GL-58" value="" style="endArrow=classic;html=1;rounded=0;" parent="1" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="735" y="270" as="sourcePoint" />
-            <mxPoint x="935" y="270" as="targetPoint" />
+            <mxPoint x="1040" y="270" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="OtI3DSjAlYHmoeJ0P0GL-59" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;&quot;&gt;&lt;span style=&quot;&quot;&gt;&#x9;&lt;/span&gt;&lt;span style=&quot;&quot;&gt;&#x9;&lt;/span&gt;&#x9;&lt;/span&gt;{&lt;div&gt;&lt;span style=&quot;&quot;&gt;&#x9;&lt;/span&gt;&quot;chall_name&quot;: &quot;OSINT1&quot;,&lt;/div&gt;&lt;div&gt;&quot;chall_description&quot;: &quot;Dasdasdasdasdad&quot;,&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;&quot;&gt;&#x9;&lt;/span&gt;&quot;chall_value&quot;: 100,&lt;/div&gt;&lt;div&gt;&quot;authors&quot;: [&quot;tt&quot;, &quot;cc&quot;],&lt;br&gt;&lt;/div&gt;&lt;div&gt;&quot;solves&quot;: [&lt;/div&gt;&lt;div&gt;&#x9;{ &quot;login&quot;: &quot;hsabir&quot;, &quot;date&quot;: &quot;2022-01-01&quot; },&lt;/div&gt;&lt;div&gt;&#x9;{ &quot;login&quot;: &quot;esanchez&quot;, &quot;date&quot;: &quot;2023-01-01&quot; },&lt;/div&gt;&lt;div&gt;],&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&quot;next_try_at&quot;: &quot;2020-01-01&quot;,&lt;br&gt;&lt;/div&gt;&lt;div&gt;},&lt;/div&gt;&lt;/div&gt;" style="text;html=1;strokeColor=#666666;fillColor=#f5f5f5;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontColor=#333333;" parent="1" vertex="1">
-          <mxGeometry x="715" y="280" width="250" height="210" as="geometry" />
+        <mxCell id="OtI3DSjAlYHmoeJ0P0GL-59" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;&quot;&gt;&lt;span style=&quot;&quot;&gt;&#x9;&lt;/span&gt;&lt;span style=&quot;&quot;&gt;&#x9;&lt;/span&gt;&#x9;&lt;/span&gt;{&lt;div&gt;&lt;span style=&quot;&quot;&gt;&#x9;&lt;/span&gt;&quot;chall_name&quot;: &quot;OSINT1&quot;,&lt;/div&gt;&lt;div&gt;&quot;chall_description&quot;: &quot;Dasdasdasdasdad&quot;,&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;&quot;&gt;&#x9;&lt;/span&gt;&quot;chall_value&quot;: 100,&lt;/div&gt;&lt;div&gt;&quot;chall_type&quot;: &quot;NORMAL&quot;,&lt;br&gt;&lt;/div&gt;&lt;div&gt;&quot;authors&quot;: [&quot;tt&quot;, &quot;cc&quot;],&lt;br&gt;&lt;/div&gt;&lt;div&gt;&quot;solves&quot;: [&lt;/div&gt;&lt;div&gt;&#x9;{ &quot;login&quot;: &quot;hsabir&quot;, &quot;date&quot;: &quot;2022-01-01&quot; },&lt;/div&gt;&lt;div&gt;&#x9;{ &quot;login&quot;: &quot;esanchez&quot;, &quot;date&quot;: &quot;2023-01-01&quot; },&lt;/div&gt;&lt;div&gt;],&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&quot;next_try_at&quot;: &quot;2020-01-01&quot;,&lt;br&gt;&lt;/div&gt;&lt;div&gt;},&lt;/div&gt;&lt;/div&gt;" style="text;html=1;strokeColor=#666666;fillColor=#f5f5f5;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontColor=#333333;" parent="1" vertex="1">
+          <mxGeometry x="710" y="325" width="250" height="210" as="geometry" />
         </mxCell>
         <mxCell id="OtI3DSjAlYHmoeJ0P0GL-60" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;-&amp;gt; myflag&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;200 { valid: &quot;success&quot;, &quot;next_retry_at&quot;: &quot;2022&quot; }&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;200 { valid: &quot;error&quot;, &quot;next_retry_at&quot;: &quot;2022&quot; }&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="text;html=1;strokeColor=#666666;fillColor=#f5f5f5;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontColor=#333333;" parent="1" vertex="1">
-          <mxGeometry x="752.5" y="510" width="270" height="100" as="geometry" />
+          <mxGeometry x="985" y="500" width="270" height="100" as="geometry" />
         </mxCell>
         <mxCell id="OtI3DSjAlYHmoeJ0P0GL-61" value="&lt;div&gt;/users&lt;br&gt;&lt;/div&gt;&lt;div&gt;Users page&lt;/div&gt;&lt;div&gt;=&amp;gt; search page front&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
           <mxGeometry x="100" y="630" width="180" height="100" as="geometry" />
@@ -94,8 +94,8 @@
             <mxPoint x="490" y="850" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="OtI3DSjAlYHmoeJ0P0GL-67" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;{&lt;div&gt;&lt;span style=&quot;&quot;&gt;&#x9;&lt;/span&gt;&quot;id&quot;: &quot;456456&quot;,&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;&quot;&gt;&#x9;&lt;/span&gt;&quot;nickname&quot;: &quot;hsabir&quot;,&lt;/div&gt;&lt;div&gt;&quot;description&quot;: &quot;dd&quot;,&lt;/div&gt;&lt;div&gt;&quot;website&quot;: &quot;dad&quot;,&lt;/div&gt;&lt;div&gt;&quot;challenges&quot;: [&lt;/div&gt;&lt;div&gt;{ &quot;chall_id&quot;: &quot;12&quot;, &quot;chall_name&quot;: &quot;OSINT1&quot;, &quot;attempts&quot;: 12, &quot;solved&quot;: true },&lt;/div&gt;&lt;div&gt;{ &quot;chall_id&quot;: &quot;14&quot;, &quot;chall_name&quot;: &quot;OSINT3&lt;/div&gt;&lt;div&gt;&quot;, &quot;attempts&quot;: 12, &quot;solved&quot;: false }&lt;/div&gt;&lt;div&gt;]&lt;br&gt;&lt;/div&gt;&lt;div&gt;}&lt;/div&gt;&lt;/div&gt;" style="text;html=1;strokeColor=#666666;fillColor=#f5f5f5;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontColor=#333333;" parent="1" vertex="1">
-          <mxGeometry x="940" y="860" width="260" height="210" as="geometry" />
+        <mxCell id="OtI3DSjAlYHmoeJ0P0GL-67" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;{&lt;div&gt;&lt;span style=&quot;&quot;&gt;&#x9;&lt;/span&gt;&quot;id&quot;: &quot;456456&quot;,&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;&quot;&gt;&#x9;&lt;/span&gt;&quot;nickname&quot;: &quot;hsabir&quot;,&lt;/div&gt;&lt;div&gt;&quot;description&quot;: &quot;dd&quot;,&lt;/div&gt;&lt;div&gt;&quot;website&quot;: &quot;dad&quot;,&lt;/div&gt;&lt;div&gt;&quot;challenges&quot;: [&lt;/div&gt;&lt;div&gt;{ &quot;chall_id&quot;: &quot;12&quot;, &quot;chall_name&quot;: &quot;OSINT1&quot;, &quot;attempts&quot;: 12, &quot;solved&quot;: true },&lt;/div&gt;&lt;div&gt;{ &quot;chall_id&quot;: &quot;14&quot;, &quot;chall_name&quot;: &quot;OSINT3&quot;, &quot;attempts&quot;: 12, &quot;solved&quot;: false }&lt;/div&gt;&lt;div&gt;]&lt;br&gt;&lt;/div&gt;&lt;div&gt;}&lt;/div&gt;&lt;/div&gt;" style="text;html=1;strokeColor=#666666;fillColor=#f5f5f5;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontColor=#333333;" parent="1" vertex="1">
+          <mxGeometry x="940" y="860" width="430" height="210" as="geometry" />
         </mxCell>
         <mxCell id="OtI3DSjAlYHmoeJ0P0GL-68" value="" style="endArrow=classic;html=1;rounded=0;" parent="1" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
@@ -217,7 +217,7 @@
         <mxCell id="ba0UJTz1_OEWriqpnoNJ-27" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;{&lt;/div&gt;&lt;div&gt;&quot;nickname: : &#39;&#39;hello&quot;,&lt;br&gt;&lt;/div&gt;&lt;div&gt;&quot;description&quot;: &quot;456456&quot;,&lt;/div&gt;&lt;div&gt;&quot;website&quot;: &quot;https://&quot;,&lt;br&gt;&lt;div&gt;&quot;twitter&quot;: &quot;http://&quot;,&lt;/div&gt;&lt;div&gt;&quot;42 account&quot;: &quot;linked&quot;,&lt;/div&gt;&lt;div&gt;&quot;github account&quot;: &quot;linked&quot;,&lt;/div&gt;&lt;div&gt;&quot;2fa&quot;: &quot;enabled&quot;, &lt;br&gt;&lt;/div&gt;&lt;div&gt;}&lt;/div&gt;&lt;/div&gt;" style="text;html=1;strokeColor=#666666;fillColor=#f5f5f5;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontColor=#333333;" vertex="1" parent="1">
           <mxGeometry x="802.5" y="1560" width="170" height="130" as="geometry" />
         </mxCell>
-        <mxCell id="ba0UJTz1_OEWriqpnoNJ-28" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;{&lt;/div&gt;&lt;div&gt;&quot;old&quot;: &quot;1234&quot;,&lt;/div&gt;&lt;div&gt;&quot;new&quot;: &quot;5678&quot;&lt;/div&gt;&lt;div&gt;}&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;200 { &quot;res&quot;: &quot;success&quot; }&lt;/div&gt;&lt;div&gt;412 { &quot;error&quot;: &quot;wrong password&quot; }&lt;/div&gt;&lt;div&gt;412 { &quot;error&quot;: &quot;length required 12&quot; } &lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="text;html=1;strokeColor=#666666;fillColor=#f5f5f5;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontColor=#333333;" vertex="1" parent="1">
+        <mxCell id="ba0UJTz1_OEWriqpnoNJ-28" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;-&amp;gt; {&lt;/div&gt;&lt;div&gt;&quot;old&quot;: &quot;1234&quot;,&lt;/div&gt;&lt;div&gt;&quot;new&quot;: &quot;5678&quot;&lt;/div&gt;&lt;div&gt;}&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;200 { &quot;res&quot;: &quot;success&quot; }&lt;/div&gt;&lt;div&gt;412 { &quot;error&quot;: &quot;wrong password&quot; }&lt;/div&gt;&lt;div&gt;412 { &quot;error&quot;: &quot;length required 12&quot; } &lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="text;html=1;strokeColor=#666666;fillColor=#f5f5f5;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontColor=#333333;" vertex="1" parent="1">
           <mxGeometry x="790" y="1800" width="225" height="130" as="geometry" />
         </mxCell>
         <mxCell id="ba0UJTz1_OEWriqpnoNJ-29" value="Modal password&lt;br&gt;&lt;div&gt;Old&lt;/div&gt;&lt;div&gt;New1&lt;/div&gt;&lt;div&gt;New2&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
@@ -257,7 +257,7 @@
             <mxPoint x="770" y="1755" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="ba0UJTz1_OEWriqpnoNJ-36" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;{ &quot;new&quot;: &quot;5678&quot; }&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;200 { &quot;res&quot;: &quot;success&quot; }&lt;/div&gt;&lt;div&gt;412 { &quot;error&quot;: &quot;nickname already taken&quot; } &lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="text;html=1;strokeColor=#666666;fillColor=#f5f5f5;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontColor=#333333;" vertex="1" parent="1">
+        <mxCell id="ba0UJTz1_OEWriqpnoNJ-36" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;-&amp;gt; { &quot;new&quot;: &quot;5678&quot; }&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;200 { &quot;res&quot;: &quot;success&quot; }&lt;/div&gt;&lt;div&gt;412 { &quot;error&quot;: &quot;nickname already taken&quot; } &lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="text;html=1;strokeColor=#666666;fillColor=#f5f5f5;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontColor=#333333;" vertex="1" parent="1">
           <mxGeometry x="785" y="1715" width="235" height="70" as="geometry" />
         </mxCell>
         <mxCell id="ba0UJTz1_OEWriqpnoNJ-37" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
@@ -272,7 +272,7 @@
             <mxPoint x="970" y="1960" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="ba0UJTz1_OEWriqpnoNJ-41" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;{&lt;/div&gt;&lt;div&gt;&quot;description&quot;: &quot;456456&quot;,&lt;div&gt;&quot;twitter&quot;: &quot;http://&quot;&lt;/div&gt;&lt;div&gt;}&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;? Send all fields or only modified ?&lt;br&gt;&lt;/div&gt;&lt;/div&gt;" style="text;html=1;strokeColor=#666666;fillColor=#f5f5f5;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontColor=#333333;" vertex="1" parent="1">
+        <mxCell id="ba0UJTz1_OEWriqpnoNJ-41" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;-&amp;gt; {&lt;/div&gt;&lt;div&gt;&quot;description&quot;: &quot;456456&quot;,&lt;div&gt;&quot;twitter&quot;: &quot;http://&quot;&lt;/div&gt;&lt;div&gt;}&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;? Send all fields or only modified ?&lt;br&gt;&lt;/div&gt;&lt;/div&gt;" style="text;html=1;strokeColor=#666666;fillColor=#f5f5f5;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontColor=#333333;" vertex="1" parent="1">
           <mxGeometry x="985" y="1940" width="170" height="110" as="geometry" />
         </mxCell>
         <mxCell id="ba0UJTz1_OEWriqpnoNJ-42" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
@@ -320,7 +320,7 @@
             <mxPoint x="730" y="2050" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="ba0UJTz1_OEWriqpnoNJ-51" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;{&lt;/div&gt;&lt;div&gt;&quot;2facode&quot;: &quot;133337&quot;&lt;div&gt;}&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;" style="text;html=1;strokeColor=#666666;fillColor=#f5f5f5;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontColor=#333333;" vertex="1" parent="1">
+        <mxCell id="ba0UJTz1_OEWriqpnoNJ-51" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;-&amp;gt; {&lt;/div&gt;&lt;div&gt;&quot;2facode&quot;: &quot;133337&quot;&lt;div&gt;}&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;" style="text;html=1;strokeColor=#666666;fillColor=#f5f5f5;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontColor=#333333;" vertex="1" parent="1">
           <mxGeometry x="780" y="2120" width="170" height="50" as="geometry" />
         </mxCell>
         <mxCell id="ba0UJTz1_OEWriqpnoNJ-53" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;.&lt;/div&gt;" style="text;html=1;strokeColor=#666666;fillColor=#f5f5f5;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontColor=#333333;" vertex="1" parent="1">
@@ -360,6 +360,81 @@
         </mxCell>
         <mxCell id="ba0UJTz1_OEWriqpnoNJ-60" value="GET /logout" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#000000;strokeWidth=10;" vertex="1" parent="1">
           <mxGeometry x="520" y="2520" width="185" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="ba0UJTz1_OEWriqpnoNJ-62" value="&lt;div&gt;/admin/notifications&lt;/div&gt;&lt;div&gt;Admin notifications publish&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="1474" y="50" width="180" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="ba0UJTz1_OEWriqpnoNJ-64" value="&lt;div&gt;POST /admin/notifications&lt;/div&gt;" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="1790" y="45" width="180" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="ba0UJTz1_OEWriqpnoNJ-66" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;-&amp;gt; {&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;&quot;title&quot;: &quot;007&quot;,&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;&quot;content&quot;: &quot;008&quot;,&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;&quot;type&quot;: &quot;toast/alert/background&quot;&lt;/div&gt;&lt;div&gt;}&lt;/div&gt;" style="text;html=1;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="2090" y="50" width="212.5" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="ba0UJTz1_OEWriqpnoNJ-67" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="705" y="549.23" as="sourcePoint" />
+            <mxPoint x="970" y="549" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ba0UJTz1_OEWriqpnoNJ-68" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1670" y="99.23" as="sourcePoint" />
+            <mxPoint x="1790" y="100" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ba0UJTz1_OEWriqpnoNJ-69" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1980" y="100" as="sourcePoint" />
+            <mxPoint x="2080" y="90.77" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ba0UJTz1_OEWriqpnoNJ-70" value="&lt;div&gt;/admin/users&lt;br&gt;&lt;/div&gt;&lt;div&gt;Users page&lt;/div&gt;&lt;div&gt;=&amp;gt; search page front&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="1470" y="260" width="180" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="ba0UJTz1_OEWriqpnoNJ-71" value="&lt;div&gt;GET /admin/users&lt;/div&gt;" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="1760" y="260" width="210" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="ba0UJTz1_OEWriqpnoNJ-72" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1660" y="299.5" as="sourcePoint" />
+            <mxPoint x="1770" y="300" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ba0UJTz1_OEWriqpnoNJ-73" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;[&lt;/div&gt;&lt;div&gt;{&lt;div&gt;&quot;id&quot;: &quot;456456&quot;,&lt;/div&gt;&lt;div&gt;&quot;nickname&quot;: &quot;hsabir&quot;,&lt;/div&gt;&lt;div&gt;&quot;description&quot;: &quot;dd&quot;,&lt;/div&gt;&lt;div&gt;&quot;website&quot;: &quot;dad&quot;,&lt;/div&gt;&lt;div&gt;&quot;is_admin&quot;: true,&lt;/div&gt;&lt;div&gt;&quot;is_hidden&quot;: false,&lt;br&gt;&lt;/div&gt;&lt;div&gt;},&lt;/div&gt;&lt;div&gt;{&lt;/div&gt;&lt;div&gt;&quot;id&quot;: &quot;123123&quot;,&lt;/div&gt;&lt;div&gt;&quot;nickname&quot;: &quot;esanchez&quot;,&lt;div&gt;&quot;description&quot;: &quot;ffff&quot;,&lt;/div&gt;&quot;website&quot;: &quot;http&quot;,&lt;/div&gt;&lt;div&gt;&lt;div&gt;&quot;is_admin&quot;: true,&lt;/div&gt;&quot;is_hidden&quot;: false,&lt;div&gt;}&lt;/div&gt;&lt;div&gt;]&lt;br&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;" style="text;html=1;strokeColor=#666666;fillColor=#f5f5f5;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="2090" y="160" width="260" height="270" as="geometry" />
+        </mxCell>
+        <mxCell id="ba0UJTz1_OEWriqpnoNJ-74" value="&lt;div&gt;GET /users/:user_id&lt;/div&gt;" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="1750" y="495" width="210" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="ba0UJTz1_OEWriqpnoNJ-75" value="" style="endArrow=classic;html=1;rounded=0;exitX=1.03;exitY=0.603;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.11;entryY=0.515;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="ba0UJTz1_OEWriqpnoNJ-79" target="ba0UJTz1_OEWriqpnoNJ-74">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1660" y="450" as="sourcePoint" />
+            <mxPoint x="1760" y="460" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ba0UJTz1_OEWriqpnoNJ-76" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;{&lt;div&gt;&quot;id&quot;: &quot;456456&quot;,&lt;/div&gt;&lt;div&gt;&quot;nickname&quot;: &quot;hsabir&quot;,&lt;/div&gt;&lt;div&gt;&quot;points&quot;: 1337,&lt;br&gt;&lt;/div&gt;&lt;div&gt;&quot;description&quot;: &quot;dd&quot;,&lt;/div&gt;&lt;div&gt;&quot;website&quot;: &quot;dad&quot;,&lt;/div&gt;&lt;div&gt;&lt;div&gt;&quot;is_admin&quot;: true,&lt;/div&gt;&quot;is_hidden&quot;: false,&lt;/div&gt;&lt;div&gt;&quot;challenges&quot;: [&lt;/div&gt;&lt;div&gt;{ &quot;chall_id&quot;: &quot;12&quot;, &quot;chall_name&quot;: &quot;OSINT1&quot;, &quot;attempts&quot;: 12, &quot;solved&quot;: true },&lt;/div&gt;&lt;div&gt;{ &quot;chall_id&quot;: &quot;14&quot;, &quot;chall_name&quot;: &quot;OSINT3&quot;, &quot;attempts&quot;: 12, &quot;solved&quot;: false }&lt;/div&gt;&lt;div&gt;],&lt;/div&gt;&lt;div&gt;awards: [&lt;/div&gt;&lt;div&gt;{ &quot;name&quot;: &quot;12&quot;, &quot;reason&quot;: &quot;T1&quot;, &quot;value&quot;: 100 },&lt;/div&gt;&lt;div&gt;]&lt;br&gt;&lt;/div&gt;&lt;div&gt;}&lt;/div&gt;&lt;/div&gt;" style="text;html=1;strokeColor=#666666;fillColor=#f5f5f5;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="2110" y="480" width="410" height="250" as="geometry" />
+        </mxCell>
+        <mxCell id="ba0UJTz1_OEWriqpnoNJ-77" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1968" y="309.38" as="sourcePoint" />
+            <mxPoint x="2080" y="300" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ba0UJTz1_OEWriqpnoNJ-78" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="ba0UJTz1_OEWriqpnoNJ-74">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1980" y="450" as="sourcePoint" />
+            <mxPoint x="2100" y="510" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ba0UJTz1_OEWriqpnoNJ-79" value="&lt;div&gt;/users/:id&lt;br&gt;&lt;/div&gt;&lt;div&gt;User public page&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="1460" y="680" width="180" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="ba0UJTz1_OEWriqpnoNJ-80" value="&lt;div&gt;PATCH /users/:user_id&lt;/div&gt;" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="1775" y="700" width="210" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="ba0UJTz1_OEWriqpnoNJ-81" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;{&lt;div&gt;&quot;nickname&quot;: &quot;hsabir&quot;,&lt;/div&gt;&lt;div&gt;&quot;email&quot;: &quot;a@b.com&quot;,&lt;br&gt;&lt;/div&gt;&lt;div&gt;&quot;description&quot;: &quot;dd&quot;,&lt;/div&gt;&lt;div&gt;&quot;website&quot;: &quot;dad&quot;,&lt;/div&gt;&lt;div&gt;&lt;div&gt;&quot;is_admin&quot;: true,&lt;/div&gt;&quot;is_hidden&quot;: false,&lt;/div&gt;&lt;div&gt;&quot;password&quot;: null,&lt;br&gt;&lt;/div&gt;&lt;div&gt;}&lt;/div&gt;&lt;/div&gt;" style="text;html=1;strokeColor=#666666;fillColor=#f5f5f5;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="2090" y="750" width="410" height="240" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
