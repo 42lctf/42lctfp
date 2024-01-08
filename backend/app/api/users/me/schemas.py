@@ -36,3 +36,11 @@ class UpdateUserInformationRequest(BaseModel):
     class Config:
         orm_mode = True
         arbitrary_types_allowed = True
+
+
+class UpdateProfilePictureRequest(BaseModel):
+    profile_picture: bytes
+
+    class Config:
+        orm_mode = True
+        arbitrary_types_allowed = True
