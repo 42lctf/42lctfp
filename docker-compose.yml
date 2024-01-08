@@ -4,7 +4,10 @@ services:
 
   backend:
     build: ./_build/backend
-    
+    depends_on:
+      postgres:
+        condition: service_healthy
+
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ./backend:/usr/src/app
@@ -35,6 +38,12 @@ services:
     image: postgres:15.3
     expose:
       - 5432
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
     volumes:
       - /etc/localtime:/etc/localtime:ro

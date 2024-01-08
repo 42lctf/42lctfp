@@ -91,7 +91,7 @@ def upgrade() -> None:
         sa.Column('flag_case_sensitive', sa.Boolean(), default=False),
         sa.Column('parent_id', UUID(as_uuid=True), sa.ForeignKey('challenges.id'), nullable=True),
         sa.Column('category_id', UUID(as_uuid=True), sa.ForeignKey('categories.id'), nullable=False),
-        sa.Column('challenge_type', sa.Enum('NORMAL', 'DOCKER'), default='NORMAL', nullable=False, name='ChallengeType'),
+        sa.Column('challenge_type', sa.Enum('NORMAL', 'DOCKER', default='NORMAL', nullable=False, name='ChallengeType')),
         sa.Column('created_at', sa.DateTime(), default=datetime.now()),
         sa.Column('updated_at', sa.DateTime(), default=datetime.now()),
     )
@@ -140,7 +140,7 @@ def upgrade() -> None:
         sa.Column('id', UUID(as_uuid=True), primary_key=True, nullable=False),
         sa.Column('title', sa.Text(), nullable=True),
         sa.Column('content', sa.Text(), nullable=True),
-        sa.Column('type', sa.Enum('TOAST', 'ALERT', 'BACKGROUND', default='TOAST', name='NotificationsType')),
+        sa.Column('type', sa.Enum('TOAST', 'ALERT', 'BACKGROUND', default='TOAST', name='NotificationType')),
         sa.Column('created_at', sa.DateTime(), default=datetime.now()),
         sa.Column('updated_at', sa.DateTime(), default=datetime.now()),
     )
@@ -158,16 +158,22 @@ def upgrade() -> None:
 
 
 def downgrade() -> None:
-    op.drop_table('campus')
-    op.drop_table('ctf_users')
-    op.drop_table('user_bans')
-    op.drop_table('categories')
-    op.drop_table('difficulties')
-    op.drop_table('flags')
     op.drop_table('challenge_authors')
-    op.drop_table('challenges')
+    op.drop_table('challenge_files')
+    op.drop_table('user_bans')
     op.drop_table('submissions')
     op.drop_table('solves')
-    op.drop_table('challenge_files')
-    op.drop_table('notifications')
     op.drop_table('awards')
+    
+    op.drop_table('challenges')
+    op.drop_table('ctf_users')
+
+    op.drop_table('campus')
+    op.drop_table('categories')
+    op.drop_table('difficulties')
+    op.drop_table('notifications')
+
+    sa.Enum(name='ChallengeType').drop(op.get_bind(), checkfirst=False)
+    sa.Enum(name='NotificationType').drop(op.get_bind(), checkfirst=False)
+
+
