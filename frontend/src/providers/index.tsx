@@ -1,5 +1,5 @@
-import { ReactNode } from "react";
-import { AuthProvider } from "./AuthProvider";
+import { ReactNode } from 'react';
+import { AuthProvider } from './AuthProvider';
 
 type Props = {
     children?: ReactNode
@@ -10,5 +10,5 @@ export function Providers({ children }: Props) {
         <AuthProvider>
             {children}
         </AuthProvider>
-    )
+    );
 }

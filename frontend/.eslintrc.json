@@ -49,8 +49,7 @@
             "error",
             {
                 "beforeColon": false,
-                "afterColon": true,
-                "align": "value"
+                "afterColon": true
             }
         ],
         "no-console": [
