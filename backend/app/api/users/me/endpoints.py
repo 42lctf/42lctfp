@@ -2,7 +2,7 @@ from typing import Annotated, Union
 
 from fastapi import APIRouter, Depends, status, HTTPException, Cookie
 from sqlalchemy.orm import Session
-from jose import jwt, JWTError, ExpiredSignatureError
+from jose import jwt, JWTError
 
 from app.db import get_session
 from app.env_utils import *
@@ -30,7 +30,9 @@ def verify_auth(token: str):
 async def get_me(access_token: Annotated[Union[str, None], Cookie()] = None, db: Session = Depends(get_session)):
     verify_auth(access_token)
     user = services.get_user_by_token(access_token, db)
-    return user
+    user_dict = user.to_dict()
+    del user_dict['password']
+    return user_dict
 
 
 @MeRouter.patch('/me/change_nickname', status_code=status.HTTP_201_CREATED)

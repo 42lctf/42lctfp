@@ -29,6 +29,26 @@ class User(Base):
     class Config:
         orm_mode = True
 
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "email": self.email,
+            "password": self.password,
+            "nickname": self.nickname,
+            "description": self.description,
+            "website": self.website,
+            "github": self.github,
+            "linkedin": self.linkedin,
+            "twitter": self.twitter,
+            "is_admin": self.is_admin,
+            "is_hidden": self.is_hidden,
+            "is_verified": self.is_verified,
+            "is_2fa_enabled": self.is_2fa_enabled,
+            "campus_id": self.campus_id,
+            "created_at": self.created_at,
+            "updated_at": self.updated_at,
+        }
+
 
 class ChallengeAuthor(Base):
     __tablename__ = "challenge_authors"
