@@ -91,4 +91,4 @@ def set_user_password(token: str, body: SetNewPasswordRequest, db: Session):
     user.password = body.new_password
     user.updated_at = datetime.now()
     db.commit()
-    db.refresh(user)x
+    db.refresh(user)
