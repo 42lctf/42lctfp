@@ -27,17 +27,20 @@ def hash_password(password):
 
 
 def password_validation(password: str):
+    errors = []
+
     if len(password) < 6:
-        return "Password length must be greater than 6 characters", False
+        errors.append("Password length must be greater than 6 characters")
     if not any(char.isdigit() for char in password):
-        return "Password must contain at least 1 digit", False
+        errors.append("Password must contain at least 1 digit")
     if not any(char.isupper() for char in password):
-        return "Password should contain at least 1 upper character", False
+        errors.append("Password should contain at least 1 upper character")
     if not any(char.islower() for char in password):
-        return "Password must contain at least 1 lower character", False
+        errors.append("Password must contain at least 1 lower character")
     if not any((char.isprintable() and not char.isalnum()) for char in password):
-        return "Password must contain at least 1 symbol", False
-    return "", True
+        errors.append("Password must contain at least 1 symbol")
+        
+    return " | ".join(errors), len(errors) == 0
 
 
 def email_validation(email: str):

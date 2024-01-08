@@ -91,7 +91,7 @@ def upgrade() -> None:
         sa.Column('flag_case_sensitive', sa.Boolean(), default=False),
         sa.Column('parent_id', UUID(as_uuid=True), sa.ForeignKey('challenges.id'), nullable=True),
         sa.Column('category_id', UUID(as_uuid=True), sa.ForeignKey('categories.id'), nullable=False),
-        sa.Column('type', sa.Enum('normal', 'docker'), default='normal', nullable=False, name='ChallengeType'),
+        sa.Column('challenge_type', sa.Enum('NORMAL', 'DOCKER'), default='NORMAL', nullable=False, name='ChallengeType'),
         sa.Column('created_at', sa.DateTime(), default=datetime.now()),
         sa.Column('updated_at', sa.DateTime(), default=datetime.now()),
     )
@@ -111,8 +111,7 @@ def upgrade() -> None:
         sa.Column('challenge_id', UUID(as_uuid=True), sa.ForeignKey('challenges.id'), nullable=False),
         sa.Column('user_id', UUID(as_uuid=True), sa.ForeignKey('ctf_users.id'), nullable=False),
         sa.Column('content', sa.String(length=100), nullable=False),
-        sa.Column("ip", sa.String(length=46), nullable=True),
-        sa.Column("correct", sa.Boolean(), nullable=False),
+        sa.Column("ip", sa.String(length=46), nullable=False),
         sa.Column('created_at', sa.DateTime(), default=datetime.now()),
         sa.Column('updated_at', sa.DateTime(), default=datetime.now()),
     )
@@ -141,7 +140,7 @@ def upgrade() -> None:
         sa.Column('id', UUID(as_uuid=True), primary_key=True, nullable=False),
         sa.Column('title', sa.Text(), nullable=True),
         sa.Column('content', sa.Text(), nullable=True),
-        sa.Column('type', sa.Enum('toast', 'alert', 'background', default='toast', name='NotificationsType')),
+        sa.Column('type', sa.Enum('TOAST', 'ALERT', 'BACKGROUND', default='TOAST', name='NotificationsType')),
         sa.Column('created_at', sa.DateTime(), default=datetime.now()),
         sa.Column('updated_at', sa.DateTime(), default=datetime.now()),
     )
@@ -160,7 +159,7 @@ def upgrade() -> None:
 
 def downgrade() -> None:
     op.drop_table('campus')
-    op.drop_table('ctf_user')
+    op.drop_table('ctf_users')
     op.drop_table('user_bans')
     op.drop_table('categories')
     op.drop_table('difficulties')
