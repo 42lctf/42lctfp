@@ -14,7 +14,7 @@ MeRouter = APIRouter()
 
 def verify_auth(token: str):
     try:
-        jwt.decode(token, JWT_REFRESH_SECRET_KEY, algorithms=[ALGORITHM])
+        jwt.decode(token, JWT_SECRET_KEY, algorithms=[ALGORITHM])
     except JWTError:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
