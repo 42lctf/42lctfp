@@ -11,7 +11,7 @@ def get_or_create_campus(cmp, db: Session = Depends(get_session)):
     if not campus:
         campus = Campus(
             id=uuid4(),
-            campus_id=cmp['id'],
+            intra_campus_id=cmp['id'],
             name=cmp['name'],
             country=cmp['country']
         )

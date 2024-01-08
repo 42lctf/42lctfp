@@ -7,7 +7,7 @@ from datetime import datetime
 class Campus(Base):
     __tablename__ = "campus"
     id = Column(UUID(as_uuid=True), primary_key=True, index=True)
-    campus_id = Column(Integer, nullable=False)
+    intra_campus_id = Column(Integer, nullable=False)
     name = Column('name', String(50), nullable=True)
     country = Column('country', String(50), nullable=True)
     created_at = Column('created_at', DateTime, default=datetime.now(), nullable=False)
