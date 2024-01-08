@@ -16,6 +16,7 @@ services:
       DATABASE_USER: ${DATABASE_USER}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
       DATABASE_PORT: ${DATABASE_PORT}
+      
       JWT_SECRET_KEY: ${JWT_SECRET_KEY}
       JWT_REFRESH_SECRET_KEY: ${JWT_REFRESH_SECRET_KEY}
 
@@ -67,10 +68,6 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ./frontend:/app
-
-    environment:
-      VITE_FT_CID: ${AUTH_CLIENT_ID}
-      VITE_REDIRECT_URI: ${REDIRECT_AUTH_URL}
 
     networks:
       - front
