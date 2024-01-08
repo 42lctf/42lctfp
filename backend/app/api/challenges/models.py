@@ -23,7 +23,6 @@ class Challenge(Base):
     flag_case_sensitive = Column(Boolean(), default=False, nullable=False)
     parent_id = Column(UUID(as_uuid=True), ForeignKey("challenges.id"), nullable=True)
     category_id = Column(UUID(as_uuid=True), ForeignKey("categories.id"), nullable=False)
-    type = Column(Enum(ChallengeType), default=ChallengeType.normal, nullable=False)
     created_at = Column(DateTime(), default=datetime.now(), nullable=False)
     updated_at = Column(DateTime(), default=datetime.now(), nullable=False)
 

@@ -1,6 +1,6 @@
-from typing import Annotated
+from typing import Annotated, Union
 
-from fastapi import APIRouter, Depends, status, Header, HTTPException
+from fastapi import APIRouter, Depends, status, Header, HTTPException, Cookie
 from sqlalchemy.orm import Session
 from jose import jwt, JWTError
 
@@ -24,9 +24,9 @@ def verify_auth(token: str):
 
 
 @MeRouter.get('/me', status_code=status.HTTP_200_OK)
-async def get_me(token: Annotated[str, Header()], db: Session = Depends(get_session)):
-    verify_auth(token)
-    user = services.get_user_by_token(token, db)
+async def get_me(access_token: Annotated[Union[str, None], Cookie()] = None, db: Session = Depends(get_session)):
+    verify_auth(access_token)
+    user = services.get_user_by_token(access_token, db)
     return user
 
 

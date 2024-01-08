@@ -91,7 +91,6 @@ def upgrade() -> None:
         sa.Column('flag_case_sensitive', sa.Boolean(), default=False),
         sa.Column('parent_id', UUID(as_uuid=True), sa.ForeignKey('challenges.id'), nullable=True),
         sa.Column('category_id', UUID(as_uuid=True), sa.ForeignKey('categories.id'), nullable=False),
-        sa.Column('type', sa.Enum('normal', 'docker'), default='normal', nullable=False, name='ChallengeType'),
         sa.Column('created_at', sa.DateTime(), default=datetime.now()),
         sa.Column('updated_at', sa.DateTime(), default=datetime.now()),
     )

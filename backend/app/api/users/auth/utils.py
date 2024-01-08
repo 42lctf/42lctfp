@@ -142,7 +142,7 @@ def get_data_from_intra(token):
 
 
 def create_user(data, db: Session = Depends(get_session)):
-    user = db.query(User).filter(User.intra_id == data['user_id']).first()
+    user = db.query(User).filter(User.intra_user_id == data['user_id']).first()
     campus_t = get_or_create_campus(data['campus'], db)
     if not user:
         user_name = db.query(User).filter(User.nickname == data['nickname']).first()
