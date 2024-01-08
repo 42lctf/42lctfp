@@ -7,7 +7,7 @@ from jose import jwt, JWTError
 from app.db import get_session
 from app.env_utils import *
 from . import services
-from .schemas import NicknameUpdateRequest
+from .schemas import NicknameUpdateRequest, ChangePasswordRequest, SetNewPasswordRequest
 
 MeRouter = APIRouter()
 
@@ -41,3 +41,19 @@ async def update_nickname(body: NicknameUpdateRequest, access_token: Annotated[U
     verify_auth(access_token)
     user = services.update_user_nickname(access_token, body, db)
     return user
+
+
+@MeRouter.patch('/me/change_password', status_code=status.HTTP_201_CREATED)
+async def update_password(body: ChangePasswordRequest, access_token: Annotated[Union[str, None], Cookie()] = None,
+                          db: Session = Depends(get_session)):
+    verify_auth(access_token)
+    services.update_user_password(access_token, body, db)
+    return {"message": "Password updated successfully"}
+
+
+@MeRouter.patch('/me/set_password', status_code=status.HTTP_201_CREATED)
+async def set_password(body: SetNewPasswordRequest, access_token: Annotated[Union[str, None], Cookie()] = None,
+                       db: Session = Depends(get_session)):
+    verify_auth(access_token)
+    services.set_user_password(access_token, body, db)
+    return {"message": "Password set successfully"}

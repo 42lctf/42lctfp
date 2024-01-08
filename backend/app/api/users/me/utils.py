@@ -2,6 +2,8 @@ from sqlmodel import Session
 from uuid import UUID
 from fastapi import HTTPException, status
 from ..models import User
+from jose import jwt, JWTError
+from app.env_utils import *
 
 
 def get_user(db: Session, id_user: str):
@@ -31,3 +33,14 @@ def sanitize_nickname(nickname: str, db: Session):
             status_code=status.HTTP_412_PRECONDITION_FAILED,
             detail="Nickname already chosen"
         )
+
+
+def get_user_payload(token: str):
+    try:
+        payload = jwt.decode(token, JWT_SECRET_KEY, algorithms=[ALGORITHM])
+    except JWTError:
+        raise HTTPException(
+            status_code=401,
+            detail="Couldn't validate credentials"
+        )
+    return payload
