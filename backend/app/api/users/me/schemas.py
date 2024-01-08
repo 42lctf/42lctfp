@@ -24,3 +24,15 @@ class SetNewPasswordRequest(BaseModel):
     class Config:
         orm_mode = True
         arbitrary_types_allowed = True
+
+
+class UpdateUserInformationRequest(BaseModel):
+    description: str
+    website: str
+    github: str
+    linkedin: str
+    twitter: str
+
+    class Config:
+        orm_mode = True
+        arbitrary_types_allowed = True

@@ -4,7 +4,7 @@ from jose import jwt, JWTError
 from sqlmodel import Session
 
 from . import utils
-from .schemas import NicknameUpdateRequest, ChangePasswordRequest, SetNewPasswordRequest
+from .schemas import NicknameUpdateRequest, ChangePasswordRequest, SetNewPasswordRequest, UpdateUserInformationRequest
 from ..models import User
 from ..auth.utils import password_validation, verify_password, hash_password
 from app.env_utils import *
@@ -89,6 +89,31 @@ def set_user_password(token: str, body: SetNewPasswordRequest, db: Session):
         )
     body.new_password = hash_password(body.new_password)
     user.password = body.new_password
+    user.updated_at = datetime.now()
+    db.commit()
+    db.refresh(user)
+
+
+def update_user_profile(token: str, body: UpdateUserInformationRequest, db: Session):
+    payload = utils.get_user_payload(token)
+    id_user: str = payload.get("sub")
+    user = db.query(User).filter(User.id == id_user).first()
+    if user is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found"
+        )
+    msg, chk = utils.check_field_lens(body)
+    if not chk:
+        raise HTTPException(
+            status_code=status.HTTP_412_PRECONDITION_FAILED,
+            detail=msg
+        )
+    user.description = body.description
+    user.website = body.website
+    user.github = body.github
+    user.linkedin = body.linkedin
+    user.twitter = body.twitter
     user.updated_at = datetime.now()
     db.commit()
     db.refresh(user)

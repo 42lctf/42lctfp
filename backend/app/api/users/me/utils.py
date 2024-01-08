@@ -4,6 +4,7 @@ from fastapi import HTTPException, status
 from ..models import User
 from jose import jwt, JWTError
 from app.env_utils import *
+from .schemas import UpdateUserInformationRequest
 
 
 def get_user(db: Session, id_user: str):
@@ -44,3 +45,19 @@ def get_user_payload(token: str):
             detail="Couldn't validate credentials"
         )
     return payload
+
+
+def check_field_lens(body: UpdateUserInformationRequest):
+    errors = []
+    if len(body.description) > 250:
+        errors.append("Description too long")
+    if len(body.website) > 100:
+        errors.append("Website too long")
+    if len(body.github) > 100:
+        errors.append("Github too long")
+    if len(body.linkedin) > 100:
+        errors.append("LinkedIn too long")
+    if len(body.twitter) > 100:
+        errors.append("Twitter too long")
+
+    return " | ".join(errors), len(errors) == 0

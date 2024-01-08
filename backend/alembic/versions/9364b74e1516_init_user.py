@@ -46,6 +46,7 @@ def upgrade() -> None:
         sa.Column('is_verified', sa.Boolean(), default=False, nullable=False),
         sa.Column('is_2fa_enabled', sa.Boolean(), default=False, nullable=False),
         sa.Column('tfa_token', sa.String(length=100), nullable=True),
+        sa.Column('profile_picture', sa.LargeBinary(), nullable=True),
         sa.Column('campus_id', UUID(as_uuid=True), sa.ForeignKey('campus.id'), nullable=True),
         sa.Column('created_at', sa.DateTime(), default=datetime.now()),
         sa.Column('updated_at', sa.DateTime(), default=datetime.now()),

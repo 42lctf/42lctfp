@@ -1,5 +1,5 @@
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy import Column, String, Boolean, DateTime, ForeignKey, BigInteger
+from sqlalchemy import Column, String, Boolean, DateTime, ForeignKey, BigInteger, LargeBinary
 # from sqlalchemy.orm import relationship
 from app.db import Base
 from datetime import datetime
@@ -22,6 +22,7 @@ class User(Base):
     is_verified = Column(Boolean(), default=False, nullable=False)
     is_2fa_enabled = Column(Boolean(), default=False, nullable=False)
     tfa_token = Column(String(length=100), nullable=True)
+    profile_picture = Column(LargeBinary(), nullable=True)
     campus_id = Column(UUID(as_uuid=True), ForeignKey("campus.id"), nullable=True)
     created_at = Column(DateTime(), default=datetime.now(), nullable=False)
     updated_at = Column(DateTime(), default=datetime.now(), nullable=False)
