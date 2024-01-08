@@ -13,7 +13,6 @@ services:
       - ./backend:/usr/src/app
 
     environment:
-      DATABASE_URL: ${DATABASE_URL}
       DATABASE_HOST: ${DATABASE_HOST}
       DATABASE_NAME: ${DATABASE_NAME}
       DATABASE_USER: ${DATABASE_USER}
