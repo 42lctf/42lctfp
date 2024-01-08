@@ -1,5 +1,5 @@
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy import Column, String, Integer, Boolean, DateTime, ForeignKey
+from sqlalchemy import Column, String, Boolean, DateTime, ForeignKey, BigInteger
 # from sqlalchemy.orm import relationship
 from app.db import Base
 from datetime import datetime
@@ -10,7 +10,7 @@ class User(Base):
     id = Column(UUID(as_uuid=True), primary_key=True, index=True)
     email = Column(String(100), nullable=False)
     password = Column(String(100), nullable=True)
-    intra_user_id = Column(Integer(), nullable=True)
+    intra_user_id = Column(BigInteger(), nullable=True)
     nickname = Column(String(50), nullable=False)
     description = Column(String(250), nullable=True)
     website = Column(String(100), nullable=True)

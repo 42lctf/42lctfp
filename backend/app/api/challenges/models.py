@@ -15,7 +15,7 @@ class Challenge(Base):
     __tablename__ = "challenges"
     id = Column(UUID(as_uuid=True), primary_key=True, index=True)
     title = Column(String(50), nullable=False)
-    description = Column(String(100), nullable=False)
+    description = Column(String(250), nullable=False)
     value = Column(Integer(), nullable=False)
     is_hidden = Column(Boolean(), default=True, nullable=False)
     difficulty_id = Column(UUID(as_uuid=True), ForeignKey("difficulties.id"), nullable=False)
