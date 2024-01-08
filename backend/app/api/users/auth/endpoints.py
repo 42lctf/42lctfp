@@ -1,6 +1,6 @@
 import os
 
-from fastapi import APIRouter, status, Depends
+from fastapi import APIRouter, status, Depends, Response
 from fastapi.responses import RedirectResponse
 from sqlalchemy.orm import Session
 
@@ -36,11 +36,11 @@ async def auth_authorize():
 
 
 @UserAuthRouter.get('/auth/callback', status_code=status.HTTP_200_OK)
-async def auth_callback(code: str, db: Session = Depends(get_session)):
+async def auth_callback(code: str, response: Response, db: Session = Depends(get_session)):
     access_token, refresh_token = services.user_auth_callback_service(code, db)
+    response.set_cookie(key="access_token", value=access_token, httponly=True)
+    response.set_cookie(key="refresh_token", value=refresh_token, httponly=True)
     return {
-        "access_token": access_token,
-        "refresh_token": refresh_token,
         "token_type": "bearer"
     }
 

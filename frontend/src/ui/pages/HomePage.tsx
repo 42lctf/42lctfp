@@ -15,6 +15,7 @@ export function HomePage() {
             headers: {
                 "accept": "application/json",
                 "token": token,
+                credentials: 'include'
             }
         })
         .then(response => response.json())
