@@ -1,3 +1,3 @@
 /// <reference types="vite/client" />
 
-VITE_BASEURL = "/api/v1"
+VITE_BASEURL = '/api/v1';

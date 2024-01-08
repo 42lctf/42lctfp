@@ -1,4 +1,4 @@
 export const Paths = {
-    Home: "/",
-    AuthCallback: "/auth/callback"
-}
+    Home: '/',
+    AuthCallback: '/auth/callback',
+};

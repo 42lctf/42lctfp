@@ -1,13 +1,12 @@
-import { Login } from "./Login";
-import { HomePage } from "./HomePage";
-import { useAuth } from "@/providers/AuthProvider";
+import { useAuth } from '@/providers/AuthProvider';
+import { isDef } from '@/technical/isDef';
 
 export function Home() {
-    const { isLogged } = useAuth()
+    const { user } = useAuth();
 
     return (
         <div>
-            {isLogged ? <HomePage /> : <Login />}
+            <h1>Welcome {isDef(user) ? user.nickname : 'guest'}</h1>
         </div>
     );
 }
