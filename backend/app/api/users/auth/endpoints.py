@@ -19,13 +19,11 @@ async def user_registration(user_credentials: UserRegistrationRequest, db: Sessi
 
 
 @UserAuthRouter.post('/login', status_code=status.HTTP_200_OK)
-async def user_login(user_credentials: UserLoginRequest, db: Session = Depends(get_session)):
+async def user_login(user_credentials: UserLoginRequest, response: Response, db: Session = Depends(get_session)):
     access_token, refresh_token = services.user_login_service(user_credentials, db)
-    return {
-        "access_token": access_token,
-        "refresh_token": refresh_token,
-        "token_type": "bearer"
-    }
+    response.set_cookie(key="access_token", value=access_token, httponly=True)
+    response.set_cookie(key="refresh_token", value=refresh_token, httponly=True)
+    return {"message": "ok"}
 
 
 @UserAuthRouter.get('/auth/authorize', response_class=RedirectResponse, status_code=status.HTTP_302_FOUND)
@@ -40,12 +38,11 @@ async def auth_callback(code: str, response: Response, db: Session = Depends(get
     access_token, refresh_token = services.user_auth_callback_service(code, db)
     response.set_cookie(key="access_token", value=access_token, httponly=True)
     response.set_cookie(key="refresh_token", value=refresh_token, httponly=True)
-    return {
-        "token_type": "bearer"
-    }
+    return {"message": "ok"}
 
 
 @UserAuthRouter.get('/auth/refresh_token', status_code=status.HTTP_200_OK)
-async def get_refresh_token(token: str, db: Session = Depends(get_session)):
-    token = services.create_refresh_token(token, db)
-    return {"refresh_token": token}
+async def get_refresh_token(token: str, response: Response, db: Session = Depends(get_session)):
+    refresh_token = services.create_refresh_token(token, db)
+    response.set_cookie(key="refresh_token", value=refresh_token, httponly=True)
+    return {"refresh_token": "ok"}
