@@ -91,6 +91,7 @@ def upgrade() -> None:
         sa.Column('flag_case_sensitive', sa.Boolean(), default=False),
         sa.Column('parent_id', UUID(as_uuid=True), sa.ForeignKey('challenges.id'), nullable=True),
         sa.Column('category_id', UUID(as_uuid=True), sa.ForeignKey('categories.id'), nullable=False),
+        sa.Column('type', sa.Enum('normal', 'docker'), default='normal', nullable=False, name='ChallengeType'),
         sa.Column('created_at', sa.DateTime(), default=datetime.now()),
         sa.Column('updated_at', sa.DateTime(), default=datetime.now()),
     )
@@ -140,7 +141,7 @@ def upgrade() -> None:
         sa.Column('id', UUID(as_uuid=True), primary_key=True, nullable=False),
         sa.Column('title', sa.Text(), nullable=True),
         sa.Column('content', sa.Text(), nullable=True),
-        sa.Column('type', postgresql.ENUM('toast', 'alert', 'background', name='notification_type')),
+        sa.Column('type', sa.Enum('toast', 'alert', 'background', default='toast', name='NotificationsType')),
         sa.Column('created_at', sa.DateTime(), default=datetime.now()),
         sa.Column('updated_at', sa.DateTime(), default=datetime.now()),
     )
@@ -164,7 +165,7 @@ def downgrade() -> None:
     op.drop_table('categories')
     op.drop_table('difficulties')
     op.drop_table('flags')
-    op.drop_table('challenge_author')
+    op.drop_table('challenge_authors')
     op.drop_table('challenges')
     op.drop_table('submissions')
     op.drop_table('solves')

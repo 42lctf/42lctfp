@@ -1,7 +1,15 @@
+import enum
+
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy import Column, String, Integer, Boolean, DateTime, ForeignKey
+from sqlalchemy import Column, String, Integer, Boolean, DateTime, ForeignKey, Enum
 from app.db import Base
 from datetime import datetime
+
+
+class ChallengeType(enum.Enum):
+    normal = 'normal'
+    docker = 'docker'
+
 
 class Challenge(Base):
     __tablename__ = "challenges"
@@ -10,16 +18,18 @@ class Challenge(Base):
     description = Column(String(100), nullable=False)
     value = Column(Integer(), nullable=False)
     is_hidden = Column(Boolean(), default=True, nullable=False)
-    difficulty = Column(UUID(as_uuid=True), ForeignKey("difficulties.id"), nullable=False)
+    difficulty_id = Column(UUID(as_uuid=True), ForeignKey("difficulties.id"), nullable=False)
     flag = Column(String(100), nullable=False)
     flag_case_sensitive = Column(Boolean(), default=False, nullable=False)
-    parent = Column(UUID(as_uuid=True), ForeignKey("challenges.id"), nullable=True)
+    parent_id = Column(UUID(as_uuid=True), ForeignKey("challenges.id"), nullable=True)
     category_id = Column(UUID(as_uuid=True), ForeignKey("categories.id"), nullable=False)
+    type = Column(Enum(ChallengeType), default=ChallengeType.normal, nullable=False)
     created_at = Column(DateTime(), default=datetime.now(), nullable=False)
     updated_at = Column(DateTime(), default=datetime.now(), nullable=False)
 
     class Config:
         orm_mode = True
+
 
 class Category(Base):
     __tablename__ = "categories"

@@ -9,11 +9,12 @@ export function HomePage() {
         if (!token) {
             return
         }
-        const url = `/api/v1/users/me?token=${encodeURIComponent(token)}`;
+        const url = `/api/v1/users/me`;
         fetch(url, {
             method: "GET",
             headers: {
-                "accept": "application/json"
+                "accept": "application/json",
+                "token": token,
             }
         })
         .then(response => response.json())

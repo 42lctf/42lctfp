@@ -3,6 +3,7 @@ from sqlalchemy import Column, String, Integer, Boolean, DateTime, ForeignKey
 from app.db import Base
 from datetime import datetime
 
+
 class Submission(Base):
     __tablename__ = "submissions"
     id = Column(UUID(as_uuid=True), primary_key=True, index=True)
@@ -16,6 +17,7 @@ class Submission(Base):
 
     class Config:
         orm_mode = True
+
 
 class Solve(Base):
     __tablename__ = "solves"

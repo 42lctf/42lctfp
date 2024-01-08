@@ -72,6 +72,16 @@ def input_sanitizer(credentials, db):
             status_code=status.HTTP_412_PRECONDITION_FAILED,
             detail="Nickname already taken"
         )
+    if credentials.nickname.empty:
+        raise HTTPException(
+            status_code=status.HTTP_412_PRECONDITION_FAILED,
+            detail="Nickname can't be empty"
+        )
+    if len(credentials.nickname) > 50:
+        raise HTTPException(
+            status_code=status.HTTP_412_PRECONDITION_FAILED,
+            detail="Nickname too long"
+        )
 
 
 def create_token(data: dict, t="refresh", expires_delta: timedelta = None) -> str:
