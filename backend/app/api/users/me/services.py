@@ -1,6 +1,6 @@
 from datetime import datetime
-
-from jose import jwt
+from fastapi import HTTPException, status
+from jose import jwt, JWTError
 from sqlmodel import Session
 
 from . import utils
@@ -16,12 +16,21 @@ def get_user_by_token(token: str, db: Session):
 
 
 def update_user_nickname(token: str, body: NicknameUpdateRequest, db: Session):
-    payload = jwt.decode(token, JWT_SECRET_KEY, algorithms=[ALGORITHM])
+    try:
+        payload = jwt.decode(token, JWT_SECRET_KEY, algorithms=[ALGORITHM])
+    except JWTError:
+        raise HTTPException(
+            status_code=401,
+            detail="Couldn't validate credentials"
+        )
     id_user: str = payload.get("sub")
     user = db.query(User).filter(User.id == id_user).first()
     if user is None:
-        pass
-        # TODO : raise an exception
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found"
+        )
+    utils.sanitize_nickname(body.nickname, db)
     user.nickname = body.nickname
     user.updated_at = datetime.now()
     db.commit()

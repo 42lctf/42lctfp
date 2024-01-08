@@ -35,7 +35,7 @@ def user_login_service(user_credentials, db):
     chk = verify_password(user_credentials.password, user.password)
     if not chk:
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
+            status_code=401,
             detail="Invalid password"
         )
     access_token = create_token(data={"sub": str(user.id)}, t="access")
@@ -60,7 +60,7 @@ def user_auth_callback_service(code, db):
 
 def create_refresh_token(token: str, db: Session):
     http_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
+        status_code=401,
         detail="Could not validate credentials",
         headers={"WWW-Authenticate": "Bearer"},
     )
