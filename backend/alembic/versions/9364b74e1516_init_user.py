@@ -89,7 +89,7 @@ def upgrade() -> None:
         sa.Column('difficulty_id', UUID(as_uuid=True), sa.ForeignKey('difficulties.id'), nullable=False),
         sa.Column('flag', sa.String(length=100), nullable=False),
         sa.Column('flag_case_sensitive', sa.Boolean(), default=False),
-        sa.Column('parent_id', UUID(as_uuid=True), sa.ForeignKey('challenges.id'), nullable=False),
+        sa.Column('parent_id', UUID(as_uuid=True), sa.ForeignKey('challenges.id'), nullable=True),
         sa.Column('category_id', UUID(as_uuid=True), sa.ForeignKey('categories.id'), nullable=False),
         sa.Column('created_at', sa.DateTime(), default=datetime.now()),
         sa.Column('updated_at', sa.DateTime(), default=datetime.now()),
@@ -98,7 +98,7 @@ def upgrade() -> None:
     op.create_table(
         'challenge_authors',
         sa.Column('id', UUID(as_uuid=True), primary_key=True, nullable=False),
-        sa.Column('challenge_id', UUID(as_uuid=True), sa.ForeignKey('challenges.id'), nullable=True),
+        sa.Column('challenge_id', UUID(as_uuid=True), sa.ForeignKey('challenges.id'), nullable=False),
         sa.Column('user_id', UUID(as_uuid=True), sa.ForeignKey('ctf_users.id'), nullable=False),
         sa.Column('created_at', sa.DateTime(), default=datetime.now()),
         sa.Column('updated_at', sa.DateTime(), default=datetime.now()),
@@ -107,7 +107,7 @@ def upgrade() -> None:
     op.create_table(
         'submissions',
         sa.Column('id', UUID(as_uuid=True), primary_key=True, nullable=False),
-        sa.Column('challenge_id', UUID(as_uuid=True), sa.ForeignKey('challenges.id'), nullable=True),
+        sa.Column('challenge_id', UUID(as_uuid=True), sa.ForeignKey('challenges.id'), nullable=False),
         sa.Column('user_id', UUID(as_uuid=True), sa.ForeignKey('ctf_users.id'), nullable=False),
         sa.Column('content', sa.String(length=100), nullable=False),
         sa.Column("ip", sa.String(length=46), nullable=True),
