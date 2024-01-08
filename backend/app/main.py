@@ -1,11 +1,7 @@
-from fastapi import Depends, FastAPI
-from sqlmodel import select
-from sqlmodel.ext.asyncio.session import AsyncSession
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api import users
 from app.api.users.endpoints import UserRouter
-
 app = FastAPI()
 
 origin = [
@@ -21,8 +17,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(UserRouter, prefix="/users", tags=["users"])
+app.include_router(UserRouter, prefix="/api/v1/users", tags=["users"])
+
 
 @app.get("/ping")
 async def pong():
     return {"ping": "pong!"}
+
