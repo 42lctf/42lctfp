@@ -11,10 +11,12 @@ async def user_registration_service(credentials, db):
         email=credentials.email,
         password=hashed_pass,
         nickname=credentials.nickname,
-        score=0,
         is_admin=False,
         is_hidden=False,
         is_verified=False,
+        is_2fa_enabled=False,
+        created_at=datetime.now(),
+        updated_at=datetime.now()
     )
     db.add(new_user)
     db.commit()
@@ -65,7 +67,7 @@ def create_refresh_token(token: str, db: Session):
         headers={"WWW-Authenticate": "Bearer"},
     )
     try:
-        payload = jwt.decode(token, JWT_SECRET_KEY, algorithms=[ALGORITHM])
+        payload = jwt.decode(token, JWT_REFRESH_SECRET_KEY, algorithms=[ALGORITHM])
         user_id = payload.get('sub')
         if user_id is None:
             raise http_exception
