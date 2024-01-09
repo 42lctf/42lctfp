@@ -27,17 +27,20 @@ def hash_password(password):
 
 
 def password_validation(password: str):
+    errors = []
+
     if len(password) < 6:
-        return "Password length must be greater than 6 characters", False
+        errors.append("Password length must be greater than 6 characters")
     if not any(char.isdigit() for char in password):
-        return "Password must contain at least 1 digit", False
+        errors.append("Password must contain at least 1 digit")
     if not any(char.isupper() for char in password):
-        return "Password should contain at least 1 upper character", False
+        errors.append("Password should contain at least 1 upper character")
     if not any(char.islower() for char in password):
-        return "Password must contain at least 1 lower character", False
+        errors.append("Password must contain at least 1 lower character")
     if not any((char.isprintable() and not char.isalnum()) for char in password):
-        return "Password must contain at least 1 symbol", False
-    return "", True
+        errors.append("Password must contain at least 1 symbol")
+        
+    return " | ".join(errors), len(errors) == 0
 
 
 def email_validation(email: str):
@@ -71,6 +74,16 @@ def input_sanitizer(credentials, db):
         raise HTTPException(
             status_code=status.HTTP_412_PRECONDITION_FAILED,
             detail="Nickname already taken"
+        )
+    if credentials.nickname.empty:
+        raise HTTPException(
+            status_code=status.HTTP_412_PRECONDITION_FAILED,
+            detail="Nickname can't be empty"
+        )
+    if len(credentials.nickname) > 50:
+        raise HTTPException(
+            status_code=status.HTTP_412_PRECONDITION_FAILED,
+            detail="Nickname too long"
         )
 
 
@@ -132,7 +145,7 @@ def get_data_from_intra(token):
 
 
 def create_user(data, db: Session = Depends(get_session)):
-    user = db.query(User).filter(User.intra_id == data['user_id']).first()
+    user = db.query(User).filter(User.intra_user_id == data['user_id']).first()
     campus_t = get_or_create_campus(data['campus'], db)
     if not user:
         user_name = db.query(User).filter(User.nickname == data['nickname']).first()
@@ -144,7 +157,7 @@ def create_user(data, db: Session = Depends(get_session)):
             email=data['email'],
             nickname=data['nickname'],
             campus_id=campus_t.id,
-            intra_id=data['user_id'],
+            intra_user_id=data['user_id'],
             is_admin=False,
             is_hidden=False,
             is_verified=True,

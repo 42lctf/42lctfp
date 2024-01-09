@@ -61,11 +61,11 @@ repostg:
 # info:
 # 			${DOCKER} exec 
 migrate:
-			${DOCKER} exec backend bash alembic -c alembic.ini upgrade head
+			${DOCKER} exec backend alembic -c alembic.ini upgrade head
 # repair:
 # 			${DOCKER} exec 
-# revert:
-# 			${DOCKER} exec 
+downgrade:
+			${DOCKER} exec backend alembic -c alembic.ini downgrade -1
 
 runfront:
 			${DOCKER} exec frontend bash

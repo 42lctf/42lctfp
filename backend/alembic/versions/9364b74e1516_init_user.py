@@ -22,7 +22,7 @@ def upgrade() -> None:
     op.create_table(
         'campus',
         sa.Column('id', UUID(as_uuid=True), primary_key=True, nullable=False),
-        sa.Column('campus_id', sa.Integer(), nullable=False),
+        sa.Column('intra_campus_id', sa.Integer(), nullable=False),
         sa.Column('name', sa.String(50), nullable=True),
         sa.Column('country', sa.String(50), nullable=True),
         sa.Column('created_at', sa.DateTime, default=datetime.now()),
@@ -34,22 +34,25 @@ def upgrade() -> None:
         sa.Column('id', UUID(as_uuid=True), primary_key=True, nullable=False),
         sa.Column('email', sa.String(length=100), nullable=False, unique=True),
         sa.Column('password', sa.String(length=100), nullable=True),
-        sa.Column('intra_id', sa.BigInteger(), nullable=True),
+        sa.Column('intra_user_id', sa.BigInteger(), nullable=True),
         sa.Column('nickname', sa.String(length=50), nullable=False, unique=True),
         sa.Column('description', sa.String(length=250), nullable=True),
-        sa.Column('website', sa.String(length=50), nullable=True),
+        sa.Column('website', sa.String(length=100), nullable=True),
+        sa.Column('github', sa.String(length=100), nullable=True),
+        sa.Column('linkedin', sa.String(length=100), nullable=True),
+        sa.Column('twitter', sa.String(length=100), nullable=True),
         sa.Column('is_admin', sa.Boolean(), default=False, nullable=False),
         sa.Column('is_hidden', sa.Boolean(), default=False, nullable=False),
         sa.Column('is_verified', sa.Boolean(), default=False, nullable=False),
         sa.Column('is_2fa_enabled', sa.Boolean(), default=False, nullable=False),
-        sa.Column('tfa_token', sa.String(length=50), nullable=True),
+        sa.Column('tfa_token', sa.String(length=100), nullable=True),
         sa.Column('campus_id', UUID(as_uuid=True), sa.ForeignKey('campus.id'), nullable=True),
         sa.Column('created_at', sa.DateTime(), default=datetime.now()),
         sa.Column('updated_at', sa.DateTime(), default=datetime.now()),
     )
 
     op.create_table(
-        'banned_users',
+        'user_bans',
         sa.Column('id', UUID(as_uuid=True), primary_key=True, nullable=False),
         sa.Column('user_id', UUID(as_uuid=True), sa.ForeignKey('ctf_users.id'), nullable=False),
         sa.Column('banned_until', sa.DateTime(), nullable=True),
@@ -86,8 +89,9 @@ def upgrade() -> None:
         sa.Column('difficulty_id', UUID(as_uuid=True), sa.ForeignKey('difficulties.id'), nullable=False),
         sa.Column('flag', sa.String(length=100), nullable=False),
         sa.Column('flag_case_sensitive', sa.Boolean(), default=False),
-        sa.Column('parent_id', UUID(as_uuid=True), sa.ForeignKey('challenges.id'), nullable=False),
+        sa.Column('parent_id', UUID(as_uuid=True), sa.ForeignKey('challenges.id'), nullable=True),
         sa.Column('category_id', UUID(as_uuid=True), sa.ForeignKey('categories.id'), nullable=False),
+        sa.Column('challenge_type', sa.Enum('NORMAL', 'DOCKER', default='NORMAL', nullable=False, name='ChallengeType')),
         sa.Column('created_at', sa.DateTime(), default=datetime.now()),
         sa.Column('updated_at', sa.DateTime(), default=datetime.now()),
     )
@@ -95,7 +99,7 @@ def upgrade() -> None:
     op.create_table(
         'challenge_authors',
         sa.Column('id', UUID(as_uuid=True), primary_key=True, nullable=False),
-        sa.Column('challenge_id', UUID(as_uuid=True), sa.ForeignKey('challenges.id'), nullable=True),
+        sa.Column('challenge_id', UUID(as_uuid=True), sa.ForeignKey('challenges.id'), nullable=False),
         sa.Column('user_id', UUID(as_uuid=True), sa.ForeignKey('ctf_users.id'), nullable=False),
         sa.Column('created_at', sa.DateTime(), default=datetime.now()),
         sa.Column('updated_at', sa.DateTime(), default=datetime.now()),
@@ -104,11 +108,10 @@ def upgrade() -> None:
     op.create_table(
         'submissions',
         sa.Column('id', UUID(as_uuid=True), primary_key=True, nullable=False),
-        sa.Column('challenge_id', UUID(as_uuid=True), sa.ForeignKey('challenges.id'), nullable=True),
+        sa.Column('challenge_id', UUID(as_uuid=True), sa.ForeignKey('challenges.id'), nullable=False),
         sa.Column('user_id', UUID(as_uuid=True), sa.ForeignKey('ctf_users.id'), nullable=False),
         sa.Column('content', sa.String(length=100), nullable=False),
-        sa.Column("ip", sa.String(length=46), nullable=True),
-        sa.Column("correct", sa.Boolean(), nullable=False),
+        sa.Column("ip", sa.String(length=46), nullable=False),
         sa.Column('created_at', sa.DateTime(), default=datetime.now()),
         sa.Column('updated_at', sa.DateTime(), default=datetime.now()),
     )
@@ -137,7 +140,7 @@ def upgrade() -> None:
         sa.Column('id', UUID(as_uuid=True), primary_key=True, nullable=False),
         sa.Column('title', sa.Text(), nullable=True),
         sa.Column('content', sa.Text(), nullable=True),
-        sa.Column('type', postgresql.ENUM('toast', 'alert', 'background', name='notification_type')),
+        sa.Column('type', sa.Enum('TOAST', 'ALERT', 'BACKGROUND', default='TOAST', name='NotificationType')),
         sa.Column('created_at', sa.DateTime(), default=datetime.now()),
         sa.Column('updated_at', sa.DateTime(), default=datetime.now()),
     )
@@ -155,16 +158,22 @@ def upgrade() -> None:
 
 
 def downgrade() -> None:
-    op.drop_table('campus')
-    op.drop_table('ctf_user')
-    op.drop_table('banned_users')
-    op.drop_table('categories')
-    op.drop_table('difficulties')
-    op.drop_table('flags')
-    op.drop_table('challenge_author')
-    op.drop_table('challenges')
+    op.drop_table('challenge_authors')
+    op.drop_table('challenge_files')
+    op.drop_table('user_bans')
     op.drop_table('submissions')
     op.drop_table('solves')
-    op.drop_table('challenge_files')
-    op.drop_table('notifications')
     op.drop_table('awards')
+    
+    op.drop_table('challenges')
+    op.drop_table('ctf_users')
+
+    op.drop_table('campus')
+    op.drop_table('categories')
+    op.drop_table('difficulties')
+    op.drop_table('notifications')
+
+    sa.Enum(name='ChallengeType').drop(op.get_bind(), checkfirst=False)
+    sa.Enum(name='NotificationType').drop(op.get_bind(), checkfirst=False)
+
+

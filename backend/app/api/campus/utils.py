@@ -7,11 +7,11 @@ from uuid import uuid4
 
 def get_or_create_campus(cmp, db: Session = Depends(get_session)):
     # cmp = campus
-    campus = db.query(Campus).filter(Campus.campus_id == cmp['id']).first()
+    campus = db.query(Campus).filter(Campus.intra_campus_id == cmp['id']).first()
     if not campus:
         campus = Campus(
             id=uuid4(),
-            campus_id=cmp['id'],
+            intra_campus_id=cmp['id'],
             name=cmp['name'],
             country=cmp['country']
         )
