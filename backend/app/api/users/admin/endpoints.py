@@ -5,6 +5,7 @@ from jose import jwt, JWTError
 from sqlalchemy.orm import Session
 
 from . import services
+from .schemas import UpdateUserProfileRequest
 
 from ..models import User
 from ..me.utils import get_user_payload
@@ -37,9 +38,9 @@ def verify_auth_admin(token: str, db: Session):
         )
 
 
-@AdminRouter.post("/admin/{user_id}/make_admin")
-async def set_as_admin(user_id: str, access_token: Annotated[Union[str, None], Cookie()] = None,
-                       db: Session = Depends(get_session)):
+@AdminRouter.patch("/admin/update_user/{user_id}", status_code=status.HTTP_200_OK)
+async def set_as_admin(user_id: str, user_informations: UpdateUserProfileRequest,
+                       access_token: Annotated[Union[str, None], Cookie()] = None, db: Session = Depends(get_session)):
     verify_auth_admin(access_token, db)
-    services.set_admin(user_id, db)
-    return {"message": "User set as admin successfully"}
+    services.update_user_profile(user_id, user_informations, db)
+    return {"message": "User profile updated successfully"}
