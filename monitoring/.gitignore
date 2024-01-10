@@ -1,0 +1,2 @@
+grafana_data/grafana.db
+grafana_data/alerting/__default__.tmpl
