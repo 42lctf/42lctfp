@@ -50,6 +50,9 @@ class User(Base):
             "updated_at": self.updated_at,
         }
 
+    def is_user_admin(self):
+        return self.is_admin
+
 
 class ChallengeAuthor(Base):
     __tablename__ = "challenge_authors"

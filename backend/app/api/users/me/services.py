@@ -10,12 +10,6 @@ from ..auth.utils import password_validation, verify_password, hash_password
 from app.env_utils import *
 
 
-def get_user_by_token(token: str, db: Session):
-    payload = jwt.decode(token, JWT_SECRET_KEY, algorithms=[ALGORITHM])
-    id_user: str = payload.get("sub")
-    return utils.get_user(db, id_user)
-
-
 def update_user_nickname(token: str, body: NicknameUpdateRequest, db: Session):
     payload = utils.get_user_payload(token)
     id_user: str = payload.get("sub")

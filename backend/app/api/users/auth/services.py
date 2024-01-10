@@ -25,6 +25,7 @@ async def user_registration_service(credentials, db):
 
 
 def user_login_service(user_credentials, db):
+    # WARNING: Don't change User.password != None to User.password is not None
     user = db.query(User).filter(
         or_(User.email == user_credentials.email_or_name, User.nickname == user_credentials.email_or_name),
         User.password != None

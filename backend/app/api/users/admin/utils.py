@@ -1,27 +1,26 @@
 from .schemas import UpdateUserProfileRequest
 
-from ..auth.utils import password_validation
 
-def sanitize_user_informations(user_informations: UpdateUserProfileRequest):
+def sanitize_user_information(user_information: UpdateUserProfileRequest):
     errors = []
-    
-    if user_informations.nickname is not None:
-        if len(user_informations.nickname) > 50:
+
+    if user_information.nickname is not None:
+        if len(user_information.nickname) > 50:
             errors.append("Nickname too long")
-    if user_informations.description is not None:
-        if len(user_informations.description) > 250:
+    if user_information.description is not None:
+        if len(user_information.description) > 250:
             errors.append("Description too long")
-    if user_informations.website is not None:
-        if len(user_informations.website) > 100:
+    if user_information.website is not None:
+        if len(user_information.website) > 100:
             errors.append("Website too long")
-    if user_informations.github is not None:
-        if len(user_informations.github) > 100:
+    if user_information.github is not None:
+        if len(user_information.github) > 100:
             errors.append("Github too long")
-    if user_informations.linkedin is not None:
-        if len(user_informations.linkedin) > 100:
+    if user_information.linkedin is not None:
+        if len(user_information.linkedin) > 100:
             errors.append("Linkedin too long")
-    if user_informations.twitter is not None:
-        if len(user_informations.twitter) > 100:
+    if user_information.twitter is not None:
+        if len(user_information.twitter) > 100:
             errors.append("Twitter too long")
-    
+
     return " | ".join(errors), len(errors) == 0

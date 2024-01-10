@@ -8,6 +8,7 @@ from app.db import get_session
 from app.env_utils import *
 from . import services
 from .schemas import NicknameUpdateRequest, ChangePasswordRequest, SetNewPasswordRequest, UpdateUserInformationRequest
+from ..general_utils import get_user_by_token
 
 MeRouter = APIRouter()
 
@@ -29,7 +30,7 @@ def verify_auth(token: str):
 @MeRouter.get('/me', status_code=status.HTTP_200_OK)
 async def get_me(access_token: Annotated[Union[str, None], Cookie()] = None, db: Session = Depends(get_session)):
     verify_auth(access_token)
-    user = services.get_user_by_token(access_token, db)
+    user = get_user_by_token(access_token, db)
     user_dict = user.to_dict()
     del user_dict['password']
     return user_dict
