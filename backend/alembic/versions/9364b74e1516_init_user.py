@@ -46,6 +46,7 @@ def upgrade() -> None:
         sa.Column('is_verified', sa.Boolean(), default=False, nullable=False),
         sa.Column('is_2fa_enabled', sa.Boolean(), default=False, nullable=False),
         sa.Column('tfa_token', sa.String(length=100), nullable=True),
+        sa.Column('profile_picture', sa.LargeBinary(), nullable=True),
         sa.Column('campus_id', UUID(as_uuid=True), sa.ForeignKey('campus.id'), nullable=True),
         sa.Column('created_at', sa.DateTime(), default=datetime.now()),
         sa.Column('updated_at', sa.DateTime(), default=datetime.now()),
@@ -83,15 +84,15 @@ def upgrade() -> None:
         'challenges',
         sa.Column('id', UUID(as_uuid=True), primary_key=True, nullable=False),
         sa.Column('title', sa.String(length=50), nullable=False),
-        sa.Column('description', sa.String(length=250), nullable=False),
+        sa.Column('description', sa.String(length=500), nullable=False),
         sa.Column('value', sa.Integer(), default=0, nullable=False),
-        sa.Column('is_hidden', sa.Boolean, default=False, nullable=False),
-        sa.Column('difficulty_id', UUID(as_uuid=True), sa.ForeignKey('difficulties.id'), nullable=False),
+        sa.Column('is_hidden', sa.Boolean, default=True, nullable=False),
         sa.Column('flag', sa.String(length=100), nullable=False),
-        sa.Column('flag_case_sensitive', sa.Boolean(), default=False),
+        sa.Column('flag_case_sensitive', sa.Boolean(), default=False, nullable=False),
+        sa.Column('challenge_type', sa.Enum('NORMAL', 'DOCKER', default='NORMAL', nullable=False, name='ChallengeType')),
+        sa.Column('difficulty_id', UUID(as_uuid=True), sa.ForeignKey('difficulties.id'), nullable=False),
         sa.Column('parent_id', UUID(as_uuid=True), sa.ForeignKey('challenges.id'), nullable=True),
         sa.Column('category_id', UUID(as_uuid=True), sa.ForeignKey('categories.id'), nullable=False),
-        sa.Column('challenge_type', sa.Enum('NORMAL', 'DOCKER', default='NORMAL', nullable=False, name='ChallengeType')),
         sa.Column('created_at', sa.DateTime(), default=datetime.now()),
         sa.Column('updated_at', sa.DateTime(), default=datetime.now()),
     )
@@ -164,7 +165,7 @@ def downgrade() -> None:
     op.drop_table('submissions')
     op.drop_table('solves')
     op.drop_table('awards')
-    
+
     op.drop_table('challenges')
     op.drop_table('ctf_users')
 
@@ -175,5 +176,3 @@ def downgrade() -> None:
 
     sa.Enum(name='ChallengeType').drop(op.get_bind(), checkfirst=False)
     sa.Enum(name='NotificationType').drop(op.get_bind(), checkfirst=False)
-
-

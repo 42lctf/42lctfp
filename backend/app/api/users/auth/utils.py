@@ -75,7 +75,7 @@ def input_sanitizer(credentials, db):
             status_code=status.HTTP_412_PRECONDITION_FAILED,
             detail="Nickname already taken"
         )
-    if credentials.nickname.empty:
+    if not credentials.nickname:
         raise HTTPException(
             status_code=status.HTTP_412_PRECONDITION_FAILED,
             detail="Nickname can't be empty"
