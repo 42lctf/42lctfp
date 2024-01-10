@@ -1,10 +1,12 @@
-import { Router } from "./components/Router"
+import { Router } from './components/Router';
+import { Providers } from './providers';
 
 function App() {
-
-  return (
-    <Router />
-  )
+    return (
+        <Providers>
+            <Router />
+        </Providers>
+    );
 }
 
-export default App
+export default App;
