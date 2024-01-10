@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.users.endpoints import UserRouter
 from app.api.categories.endpoints import CategoryRouter
+from app.api.users.admin.endpoints import AdminRouter
 
 app = FastAPI()
 
@@ -21,7 +22,7 @@ app.add_middleware(
 
 app.include_router(UserRouter, prefix="/api/v1/users", tags=["users"])
 app.include_router(CategoryRouter, prefix="/api/v1/categories", tags=["categories"])
-# app.include_router(AdminRouter, prefix="/api/v1/admin", tags=["amins"])
+app.include_router(AdminRouter, prefix="/api/v1/admin", tags=["admins"])
 
 
 @app.get("/ping")

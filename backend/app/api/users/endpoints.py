@@ -9,4 +9,3 @@ UserRouter = APIRouter()
 
 UserRouter.include_router(UserAuthRouter)
 UserRouter.include_router(MeRouter)
-UserRouter.include_router(AdminRouter)
