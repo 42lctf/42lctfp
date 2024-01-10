@@ -36,7 +36,7 @@ async def get_me(access_token: Annotated[Union[str, None], Cookie()] = None, db:
     return user_dict
 
 
-@MeRouter.patch('/me/change_nickname', status_code=status.HTTP_201_CREATED)
+@MeRouter.patch('/me/nickname', status_code=status.HTTP_201_CREATED)
 async def update_nickname(body: NicknameUpdateRequest, access_token: Annotated[Union[str, None], Cookie()] = None,
                           db: Session = Depends(get_session)):
     verify_auth(access_token)
@@ -44,7 +44,7 @@ async def update_nickname(body: NicknameUpdateRequest, access_token: Annotated[U
     return user
 
 
-@MeRouter.patch('/me/change_password', status_code=status.HTTP_201_CREATED)
+@MeRouter.patch('/me/password', status_code=status.HTTP_201_CREATED)
 async def update_password(body: ChangePasswordRequest, access_token: Annotated[Union[str, None], Cookie()] = None,
                           db: Session = Depends(get_session)):
     verify_auth(access_token)
@@ -52,7 +52,7 @@ async def update_password(body: ChangePasswordRequest, access_token: Annotated[U
     return {"message": "Password updated successfully"}
 
 
-@MeRouter.patch('/me/set_password', status_code=status.HTTP_201_CREATED)
+@MeRouter.post('/me/password', status_code=status.HTTP_201_CREATED)
 async def set_password(body: SetNewPasswordRequest, access_token: Annotated[Union[str, None], Cookie()] = None,
                        db: Session = Depends(get_session)):
     verify_auth(access_token)
@@ -60,7 +60,7 @@ async def set_password(body: SetNewPasswordRequest, access_token: Annotated[Unio
     return {"message": "Password set successfully"}
 
 
-@MeRouter.patch('/me/update_profile', status_code=status.HTTP_201_CREATED)
+@MeRouter.patch('/me/profile', status_code=status.HTTP_201_CREATED)
 async def update_profile(body: UpdateUserInformationRequest, access_token: Annotated[Union[str, None], Cookie()] = None,
                          db: Session = Depends(get_session)):
     verify_auth(access_token)
