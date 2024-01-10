@@ -12,8 +12,8 @@ class NotificationType(enum.Enum):
 class Notification(Base):
     __tablename__ = "notifications"
     id = Column(UUID(as_uuid=True), primary_key=True, index=True)
-    title = Column(Text(),  nullable=False)
-    content = Column(Text(), nullable=False)
+    title = Column(Text(),  nullable=True)
+    content = Column(Text(), nullable=True)
     type = Column(Enum(NotificationType), default=NotificationType.TOAST, nullable=False)
     created_at = Column(DateTime(), default=datetime.now(), nullable=False)
     updated_at = Column(DateTime(), default=datetime.now(), nullable=False)
