@@ -83,8 +83,8 @@ def upgrade() -> None:
     op.create_table(
         'challenges',
         sa.Column('id', UUID(as_uuid=True), primary_key=True, nullable=False),
-        sa.Column('title', sa.String(length=50), nullable=False),
-        sa.Column('description', sa.String(length=500), nullable=False),
+        sa.Column('title', sa.String(length=100), nullable=False),
+        sa.Column('description', sa.String(length=1000), nullable=False),
         sa.Column('value', sa.Integer(), default=0, nullable=False),
         sa.Column('is_hidden', sa.Boolean, default=True, nullable=False),
         sa.Column('flag', sa.String(length=100), nullable=False),

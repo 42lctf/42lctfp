@@ -14,8 +14,8 @@ class ChallengeType(enum.Enum):
 class Challenge(Base):
     __tablename__ = "challenges"
     id = Column(UUID(as_uuid=True), primary_key=True, index=True)
-    title = Column(String(50), nullable=False)
-    description = Column(String(500), nullable=False)
+    title = Column(String(100), nullable=False)
+    description = Column(String(1000), nullable=False)
     value = Column(Integer(), default=0, nullable=False)
     is_hidden = Column(Boolean(), default=True, nullable=False)
     flag = Column(String(100), nullable=False)
