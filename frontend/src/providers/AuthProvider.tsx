@@ -1,9 +1,7 @@
 import { axiosClient } from '@/services/axiosInstance';
-import { Paths } from '@/technical/Paths';
 import { dispatchLogin, dispatchLogout, registerCustomEvent, removeCustomEvent } from '@/technical/events';
 import { isDef } from '@/technical/isDef';
 import { ReactNode, createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { redirect } from 'react-router';
 
 type User = {
     id: string,
@@ -33,14 +31,11 @@ export const AuthProvider = ({ children }: { children?: ReactNode }) => {
             .then(({ data }) => {
                 setUser(data);
                 dispatchLogin();
-                redirect('/');
-            })
-            .catch(() => redirect(Paths.AuthCallback));
+            }).catch(() => undefined);
     }, []);
 
     useEffect(() => {
         registerCustomEvent('logout', handleLogout);
-
         return () => removeCustomEvent('logout', handleLogout);
     }, [handleLogin, handleLogout]);
 

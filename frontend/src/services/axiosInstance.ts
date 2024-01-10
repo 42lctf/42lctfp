@@ -12,7 +12,6 @@ axiosClient.interceptors.response.use(
         if (error.response && error.response.status === 401) {
             dispatchLogout();
         }
-
         return Promise.reject(error);
     }
 );
