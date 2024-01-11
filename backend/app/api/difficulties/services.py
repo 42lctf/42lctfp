@@ -5,7 +5,6 @@ from typing import List
 from fastapi import HTTPException, status
 
 from sqlalchemy.orm import Session
-from sqlalchemy.dialects.postgresql import UUID
 
 from ..users.general_utils import get_user_by_token
 from .schemas import CreateNewDifficultyRequest, PatchDifficultyRequest, DifficultyRequest

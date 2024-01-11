@@ -2,7 +2,6 @@ from typing import Annotated, Union
 
 from fastapi import APIRouter, status, Cookie, Depends
 from sqlalchemy.orm import Session
-from sqlalchemy.dialects.postgresql import UUID
 
 from .schemas import CreateNewDifficultyRequest, PatchDifficultyRequest
 from .services import get_difficulties, create_new_difficulty, update_difficulty, delete_difficulty
