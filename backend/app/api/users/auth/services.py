@@ -11,10 +11,12 @@ async def user_registration_service(credentials, db):
         email=credentials.email,
         password=hashed_pass,
         nickname=credentials.nickname,
-        score=0,
         is_admin=False,
         is_hidden=False,
         is_verified=False,
+        is_2fa_enabled=False,
+        created_at=datetime.now(),
+        updated_at=datetime.now()
     )
     db.add(new_user)
     db.commit()
@@ -23,6 +25,7 @@ async def user_registration_service(credentials, db):
 
 
 def user_login_service(user_credentials, db):
+    # WARNING: Don't change User.password != None to User.password is not None
     user = db.query(User).filter(
         or_(User.email == user_credentials.email_or_name, User.nickname == user_credentials.email_or_name),
         User.password != None
@@ -35,7 +38,7 @@ def user_login_service(user_credentials, db):
     chk = verify_password(user_credentials.password, user.password)
     if not chk:
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
+            status_code=401,
             detail="Invalid password"
         )
     access_token = create_token(data={"sub": str(user.id)}, t="access")
@@ -60,12 +63,12 @@ def user_auth_callback_service(code, db):
 
 def create_refresh_token(token: str, db: Session):
     http_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
+        status_code=401,
         detail="Could not validate credentials",
         headers={"WWW-Authenticate": "Bearer"},
     )
     try:
-        payload = jwt.decode(token, JWT_SECRET_KEY, algorithms=[ALGORITHM])
+        payload = jwt.decode(token, JWT_REFRESH_SECRET_KEY, algorithms=[ALGORITHM])
         user_id = payload.get('sub')
         if user_id is None:
             raise http_exception

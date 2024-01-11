@@ -1,6 +1,7 @@
 import os
+from typing import Annotated, Union
 
-from fastapi import APIRouter, status, Depends, Response
+from fastapi import APIRouter, status, Depends, Response, Cookie
 from fastapi.responses import RedirectResponse
 from sqlalchemy.orm import Session
 
@@ -42,7 +43,7 @@ async def auth_callback(code: str, response: Response, db: Session = Depends(get
 
 
 @UserAuthRouter.get('/auth/refresh_token', status_code=status.HTTP_200_OK)
-async def get_refresh_token(token: str, response: Response, db: Session = Depends(get_session)):
-    refresh_token = services.create_refresh_token(token, db)
-    response.set_cookie(key="refresh_token", value=refresh_token, httponly=True)
-    return {"refresh_token": "ok"}
+async def get_refresh_token(response: Response, refresh_token: Annotated[Union[str, None], Cookie()] = None, db: Session = Depends(get_session)):
+    access_token = services.create_refresh_token(refresh_token, db)
+    response.set_cookie(key="access_token", value=access_token, httponly=True)
+    return {"refresh_token": "Successfully updated access_token"}
