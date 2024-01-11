@@ -1,37 +1,17 @@
+from fastapi import HTTPException, status
+
+from .models import Challenge
 
 
-
-def input_sanitizer(challenge_fields, db):
-    user = db.query(User).filter(credentials.email == User.email).first()
-    if user:
+def input_sanitizer(body, db):
+    challenge_name = db.query(Challenge).filter(Challenge.title == body.title).first()
+    if challenge_name:
         raise HTTPException(
-            status_code=status.HTTP_412_PRECONDITION_FAILED,
-            detail="Email already used"
+            status_code=status.HTTP_409_CONFLICT,
+            detail="Challenge title already exists"
         )
-    msg, chk = password_validation(credentials.password)
-    if not chk:
+    if len(body.title) > 50:
         raise HTTPException(
-            status_code=status.HTTP_412_PRECONDITION_FAILED,
-            detail=msg
-        )
-    if not email_validation(credentials.email):
-        raise HTTPException(
-            status_code=status.HTTP_412_PRECONDITION_FAILED,
-            detail="Invalid email"
-        )
-    nickname = db.query(User).filter(credentials.nickname == User.nickname).first()
-    if nickname:
-        raise HTTPException(
-            status_code=status.HTTP_412_PRECONDITION_FAILED,
-            detail="Nickname already taken"
-        )
-    if credentials.nickname.empty:
-        raise HTTPException(
-            status_code=status.HTTP_412_PRECONDITION_FAILED,
-            detail="Nickname can't be empty"
-        )
-    if len(credentials.nickname) > 50:
-        raise HTTPException(
-            status_code=status.HTTP_412_PRECONDITION_FAILED,
-            detail="Nickname too long"
+            status_code=status.HTTP_409_CONFLICT,
+            detail="Title too long"
         )

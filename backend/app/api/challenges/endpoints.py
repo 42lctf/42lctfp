@@ -1,19 +1,16 @@
-from fastapi import APIRouter, status, Depends, Response
+from fastapi import APIRouter, status, Cookie, Depends
 from sqlalchemy.orm import Session
+from typing import Annotated, Union
 
 from app.db import get_session
 from .schemas import ChallengeCreationRequest
-from . import services
-
-from app.api.users.auth.endpoints import UserAuthRouter
+from .services import create_new_challenge_request
 
 
 ChallengeRouter = APIRouter()
 
-ChallengeRouter.include_router(UserAuthRouter)
 
-@ChallengeRouter.post('/create', status_code=status.HTTP_201_CREATED)
-async def create_challenge(challenge_fields: ChallengeCreationRequest, db: Session = Depends(get_session)):
-    challenge = await services.challenge_creation_service(challenge_fields, db)
-    if challenge:
-        return {"message": "Challenge creation successful"}
+@ChallengeRouter.post('/challenges/new', status_code=status.HTTP_201_CREATED)
+async def create_new_challenge(body: ChallengeCreationRequest, access_token: Annotated[Union[str, None], Cookie()] = None, db: Session = Depends(get_session)):
+    await create_new_challenge_request(body, access_token, db)
+    return {"message": "Challenge creation successful"}

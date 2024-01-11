@@ -32,18 +32,6 @@ class Challenge(Base):
         orm_mode = True
 
 
-class Category(Base):
-    __tablename__ = "categories"
-    id = Column(UUID(as_uuid=True), primary_key=True, index=True)
-    display_order = Column(Integer(), nullable=False)
-    name = Column(String(50), nullable=False)
-    created_at = Column(DateTime(), default=datetime.now(), nullable=False)
-    updated_at = Column(DateTime(), default=datetime.now(), nullable=False)
-
-    class Config:
-        orm_mode = True
-
-
 class Difficulty(Base):
     __tablename__ = "difficulties"
     id = Column(UUID(as_uuid=True), primary_key=True, index=True)
