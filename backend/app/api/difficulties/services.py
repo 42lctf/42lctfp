@@ -22,7 +22,7 @@ def get_difficulties(access_token: str, db: Session) -> List[Difficulty]:
     difficulties = db.query(Difficulty).all()
     if not difficulties:
         raise HTTPException(
-            status_code=status.HTTP_204_NO_CONTENT,
+            status_code=status.HTTP_404_NOT_FOUND,
             detail="No difficulties created for now"
         )
     filtered_difficulties = [
