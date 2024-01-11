@@ -4,6 +4,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.api.users.endpoints import UserRouter
 from app.api.categories.endpoints import CategoryRouter
 from app.api.users.admin.endpoints import AdminRouter
+from app.api.challenges.endpoints import ChallengeRouter
+from app.api.difficulties.endpoints import DifficultyRouter
 
 app = FastAPI()
 
@@ -23,6 +25,8 @@ app.add_middleware(
 app.include_router(UserRouter, prefix="/api/v1/users", tags=["users"])
 app.include_router(CategoryRouter, prefix="/api/v1/categories", tags=["categories"])
 app.include_router(AdminRouter, prefix="/api/v1/admin", tags=["admins"])
+app.include_router(ChallengeRouter, prefix="/api/v1/challenges", tags=["challenges"])
+app.include_router(DifficultyRouter, prefix="/api/v1/difficulties", tags=["difficulties"])
 
 
 @app.get("/ping")
