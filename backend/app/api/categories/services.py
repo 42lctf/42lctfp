@@ -1,15 +1,32 @@
 from uuid import uuid4
+from typing import List
 
 from fastapi import HTTPException, status
-
 from sqlalchemy.orm import Session
+from sqlalchemy import asc
 
 from ..users.general_utils import get_user_by_token
-from .schemas import CreateNewCategoryRequest
+from .schemas import CreateNewCategoryRequest, CategoryRequest
 from .models import Category
 
 
-def crete_new_category(body: CreateNewCategoryRequest, access_token: str, db: Session):
+def get_categories(access_token: str, db: Session) -> List[Category]:
+    user = get_user_by_token(access_token, db)
+    if not user.is_user_admin():
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Only admin can retrieve categories"
+        )
+    categories = db.query(Category).order_by(asc(Category.display_order)).all()
+    if not categories:
+        return []
+    filtered_categories = [
+        CategoryRequest(name=category.name, display_order=category.display_order)
+        for category in categories
+    ]
+    return filtered_categories
+
+def create_new_category(body: CreateNewCategoryRequest, access_token: str, db: Session):
     user = get_user_by_token(access_token, db)
     if not user.is_user_admin():
         raise HTTPException(
@@ -22,7 +39,7 @@ def crete_new_category(body: CreateNewCategoryRequest, access_token: str, db: Se
             status_code=status.HTTP_409_CONFLICT,
             detail="Category already exists"
         )
-    if category_name.display_order == body.display_order:
+    if category_name and category_name.display_order == body.display_order:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
             detail="Display order already exists"
