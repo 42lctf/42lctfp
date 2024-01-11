@@ -8,3 +8,8 @@ class CreateNewDifficultyRequest(BaseModel):
     name: str
     created_at: datetime
     updated_at: datetime
+
+class PatchDifficultyRequest(BaseModel):
+    level: int
+    name: str
+    updated_at: datetime = datetime.utcnow()

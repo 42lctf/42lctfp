@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy.dialects.postgresql import UUID
 
 from ..users.general_utils import get_user_by_token
-from .schemas import CreateNewDifficultyRequest
+from .schemas import CreateNewDifficultyRequest, PatchDifficultyRequest
 from .models import Difficulty
 from app.api.challenges.models import Challenge
 
@@ -42,7 +42,7 @@ def create_new_difficulty(body: CreateNewDifficultyRequest, access_token: str, d
     db.refresh(difficulty)
 
 
-def update_difficulty(difficulty_id: str, body: CreateNewDifficultyRequest, access_token: str, db: Session):
+def update_difficulty(difficulty_id: str, body: PatchDifficultyRequest, access_token: str, db: Session):
     user = get_user_by_token(access_token, db)
     if not user.is_user_admin():
         raise HTTPException(
