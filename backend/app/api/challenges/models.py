@@ -30,15 +30,3 @@ class Challenge(Base):
 
     class Config:
         orm_mode = True
-
-
-class Difficulty(Base):
-    __tablename__ = "difficulties"
-    id = Column(UUID(as_uuid=True), primary_key=True, index=True)
-    level = Column(Integer(), nullable=False)
-    name = Column(String(50), nullable=False)
-    created_at = Column(DateTime(), default=datetime.now(), nullable=False)
-    updated_at = Column(DateTime(), default=datetime.now(), nullable=False)
-
-    class Config:
-        orm_mode = True
