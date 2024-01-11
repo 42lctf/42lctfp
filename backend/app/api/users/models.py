@@ -37,3 +37,20 @@ class ChallengeAuthor(Base):
     user_id = Column(UUID(as_uuid=True), ForeignKey("ctf_users.id"), nullable=False)
     created_at = Column(DateTime(), default=datetime.now(), nullable=False)
     updated_at = Column(DateTime(), default=datetime.now(), nullable=False)
+
+    class Config:
+        orm_mode = True
+
+
+class UserBan(Base):
+    __tablename__ = "user_bans"
+    id = Column(UUID(as_uuid=True), primary_key=True, index=True)
+    user_id = Column(UUID(as_uuid=True), ForeignKey("ctf_users.id"), nullable=False)
+    banned_until = Column(DateTime(), nullable=True)
+    reason = Column(String(250), nullable=True)
+    created_at = Column(DateTime(), default=datetime.now(), nullable=False)
+    updated_at = Column(DateTime(), default=datetime.now(), nullable=False)
+
+    class Config:
+        orm_mode = True
+
