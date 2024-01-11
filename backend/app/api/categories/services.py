@@ -8,6 +8,7 @@ from sqlalchemy import asc
 from ..users.general_utils import get_user_by_token
 from .schemas import CreateNewCategoryRequest, CategoryRequest, PatchCategory
 from .models import Category
+from app.api.challenges.models import Challenge
 
 
 def get_categories(access_token: str, db: Session) -> List[Category]:
@@ -95,3 +96,28 @@ def update_category(category_id: str, body: PatchCategory, access_token: str, db
 
     db.commit()
     db.refresh(category)
+
+def delete_category(category_id: str, access_token: str, db: Session):
+    user = get_user_by_token(access_token, db)
+    if not user.is_user_admin():
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Only admin can delete category"
+        )
+    category = db.query(Category).filter(Category.id == category_id).first()
+    if category is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="category not found"
+        )
+    challenges_using_category = db.query(Challenge).filter(Challenge.category_id == category_id).all()
+    if challenges_using_category:
+        challenge_names = [challenge.title for challenge in challenges_using_category]
+        challenges_str = ', '.join(challenge_names)
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail=f"category is used by challenges: {challenges_str}. Cannot delete."
+        )
+
+    db.delete(category)
+    db.commit()
