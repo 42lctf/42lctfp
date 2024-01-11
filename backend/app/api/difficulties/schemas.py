@@ -2,6 +2,9 @@ from pydantic import BaseModel
 
 from datetime import datetime
 
+class DifficultyRequest(BaseModel):
+    level: int
+    name: str
 
 class CreateNewDifficultyRequest(BaseModel):
     level: int

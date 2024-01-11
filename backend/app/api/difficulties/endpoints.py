@@ -5,11 +5,16 @@ from sqlalchemy.orm import Session
 from sqlalchemy.dialects.postgresql import UUID
 
 from .schemas import CreateNewDifficultyRequest, PatchDifficultyRequest
-from .services import create_new_difficulty, update_difficulty, delete_difficulty
+from .services import get_difficulties, create_new_difficulty, update_difficulty, delete_difficulty
 from app.db import get_session
 
 DifficultyRouter = APIRouter()
 
+
+@DifficultyRouter.get('/difficulties', status_code=status.HTTP_200_OK)
+async def get_all_difficulties(access_token: Annotated[Union[str, None], Cookie()] = None, db: Session = Depends(get_session)):
+    difficulties = get_difficulties(access_token, db)
+    return {"difficulties": difficulties}
 
 @DifficultyRouter.post('/difficulties', status_code=status.HTTP_201_CREATED)
 async def create_difficulty(body: CreateNewDifficultyRequest, access_token: Annotated[Union[str, None], Cookie()] = None, db: Session = Depends(get_session)):

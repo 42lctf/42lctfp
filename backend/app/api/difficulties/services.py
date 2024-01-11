@@ -1,5 +1,6 @@
 from uuid import uuid4
 from datetime import datetime
+from typing import List
 
 from fastapi import HTTPException, status
 
@@ -7,10 +8,28 @@ from sqlalchemy.orm import Session
 from sqlalchemy.dialects.postgresql import UUID
 
 from ..users.general_utils import get_user_by_token
-from .schemas import CreateNewDifficultyRequest, PatchDifficultyRequest
+from .schemas import CreateNewDifficultyRequest, PatchDifficultyRequest, DifficultyRequest
 from .models import Difficulty
 from app.api.challenges.models import Challenge
 
+def get_difficulties(access_token: str, db: Session) -> List[Difficulty]:
+    user = get_user_by_token(access_token, db)
+    if not user.is_user_admin():
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Only admin can retrieve difficulties"
+        )
+    difficulties = db.query(Difficulty).all()
+    if not difficulties:
+        raise HTTPException(
+            status_code=status.HTTP_204_NO_CONTENT,
+            detail="No difficulties created for now"
+        )
+    filtered_difficulties = [
+        DifficultyRequest(level=difficulty.level, name=difficulty.name)
+        for difficulty in difficulties
+    ]
+    return filtered_difficulties
 
 def create_new_difficulty(body: CreateNewDifficultyRequest, access_token: str, db: Session):
     user = get_user_by_token(access_token, db)
