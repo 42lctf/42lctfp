@@ -21,10 +21,7 @@ def get_difficulties(access_token: str, db: Session) -> List[Difficulty]:
         )
     difficulties = db.query(Difficulty).order_by(asc(Difficulty.level)).all()
     if not difficulties:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="No difficulties created for now"
-        )
+        return []
     filtered_difficulties = [
         DifficultyRequest(level=difficulty.level, name=difficulty.name)
         for difficulty in difficulties

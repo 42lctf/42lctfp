@@ -26,7 +26,7 @@ async def update_difficulty_request(difficulty_id: str, body: PatchDifficultyReq
     update_difficulty(difficulty_id, body, access_token, db)
     return {"message": "Difficulty successfully modified"}
 
-@DifficultyRouter.delete('/{difficulty_id}', status_code=204)
+@DifficultyRouter.delete('/{difficulty_id}', status_code=status.HTTP_204_NO_CONTENT)
 async def delete_difficulty_request(difficulty_id: str, access_token: Annotated[Union[str, None], Cookie()] = None, db: Session = Depends(get_session)):
     delete_difficulty(difficulty_id, access_token, db)
     return {"message": "Difficulty successfully modified"}
