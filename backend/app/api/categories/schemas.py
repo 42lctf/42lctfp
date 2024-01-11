@@ -11,3 +11,9 @@ class CreateNewCategoryRequest(BaseModel):
     name: str
     created_at: datetime
     updated_at: datetime
+
+class PatchCategory(BaseModel):
+    display_order: int
+    name: str
+    updated_at: datetime = datetime.utcnow()
+

@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import asc
 
 from ..users.general_utils import get_user_by_token
-from .schemas import CreateNewCategoryRequest, CategoryRequest
+from .schemas import CreateNewCategoryRequest, CategoryRequest, PatchCategory
 from .models import Category
 
 
@@ -62,5 +62,36 @@ def create_new_category(body: CreateNewCategoryRequest, access_token: str, db: S
         updated_at=body.updated_at
     )
     db.add(category)
+    db.commit()
+    db.refresh(category)
+
+def update_category(category_id: str, body: PatchCategory, access_token: str, db: Session):
+    user = get_user_by_token(access_token, db)
+    if not user.is_user_admin():
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Only admin can update category"
+        )
+    category = db.query(Category).filter(Category.id == category_id).first()
+    if category is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="category not found"
+        )
+    category_name = db.query(Category).filter(Category.name == body.name, Category.id != category_id).first()
+    if category_name:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="category name already exists"
+        )
+    if len(body.name) > 50:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="category name too long"
+        )
+
+    category.name = body.name
+    category.display_order = body.display_order
+
     db.commit()
     db.refresh(category)
