@@ -10,22 +10,23 @@ from app.db import get_session
 DifficultyRouter = APIRouter()
 
 
-@DifficultyRouter.get('/difficulties', status_code=status.HTTP_200_OK)
+@DifficultyRouter.get('', status_code=status.HTTP_200_OK)
 async def get_all_difficulties(access_token: Annotated[Union[str, None], Cookie()] = None, db: Session = Depends(get_session)):
     difficulties = get_difficulties(access_token, db)
+
     return {"difficulties": difficulties}
 
-@DifficultyRouter.post('/difficulties', status_code=status.HTTP_201_CREATED)
+@DifficultyRouter.post('', status_code=status.HTTP_201_CREATED)
 async def create_difficulty(body: CreateNewDifficultyRequest, access_token: Annotated[Union[str, None], Cookie()] = None, db: Session = Depends(get_session)):
     create_new_difficulty(body, access_token, db)
     return {"message": "New difficulty created successfully"}
 
-@DifficultyRouter.patch('/difficulties/{difficulty_id}', status_code=status.HTTP_200_OK)
+@DifficultyRouter.patch('/{difficulty_id}', status_code=status.HTTP_200_OK)
 async def update_difficulty_request(difficulty_id: str, body: PatchDifficultyRequest, access_token: Annotated[Union[str, None], Cookie()] = None, db: Session = Depends(get_session)):
     update_difficulty(difficulty_id, body, access_token, db)
     return {"message": "Difficulty successfully modified"}
 
-@DifficultyRouter.delete('/difficulties/{difficulty_id}', status_code=204)
+@DifficultyRouter.delete('/{difficulty_id}', status_code=204)
 async def delete_difficulty_request(difficulty_id: str, access_token: Annotated[Union[str, None], Cookie()] = None, db: Session = Depends(get_session)):
     delete_difficulty(difficulty_id, access_token, db)
     return {"message": "Difficulty successfully modified"}
