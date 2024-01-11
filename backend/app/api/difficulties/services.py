@@ -5,6 +5,7 @@ from typing import List
 from fastapi import HTTPException, status
 
 from sqlalchemy.orm import Session
+from sqlalchemy import asc
 
 from ..users.general_utils import get_user_by_token
 from .schemas import CreateNewDifficultyRequest, PatchDifficultyRequest, DifficultyRequest
@@ -18,7 +19,7 @@ def get_difficulties(access_token: str, db: Session) -> List[Difficulty]:
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Only admin can retrieve difficulties"
         )
-    difficulties = db.query(Difficulty).all()
+    difficulties = db.query(Difficulty).order_by(asc(Difficulty.level)).all()
     if not difficulties:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
