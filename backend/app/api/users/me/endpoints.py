@@ -44,11 +44,6 @@ async def get_me(payload: str = Depends(oauth2_scheme), db: Session = Depends(ge
 async def update_nickname(body: NicknameUpdateRequest, payload: str = Depends(oauth2_scheme),
                           db: Session = Depends(get_session)):
     user = get_user_by_payload(payload, db)
-    if user is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="User not found"
-        )
     nickname = db.query(User).filter(User.nickname == body.nickname).first()
     if nickname:
         raise HTTPException(
@@ -64,24 +59,24 @@ async def update_nickname(body: NicknameUpdateRequest, payload: str = Depends(oa
 
 
 @MeRouter.patch('/me/password', status_code=status.HTTP_201_CREATED)
-async def update_password(body: ChangePasswordRequest, access_token: Annotated[Union[str, None], Cookie()] = None,
+async def update_password(body: ChangePasswordRequest, payload: str = Depends(oauth2_scheme),
                           db: Session = Depends(get_session)):
-    verify_auth(access_token)
-    services.update_user_password(access_token, body, db)
+    user = get_user_by_payload(payload, db)
+    services.update_user_password(user, body, db)
     return {"message": "Password updated successfully"}
 
 
 @MeRouter.post('/me/password', status_code=status.HTTP_201_CREATED)
-async def set_password(body: SetNewPasswordRequest, access_token: Annotated[Union[str, None], Cookie()] = None,
+async def set_password(body: SetNewPasswordRequest, payload: str = Depends(oauth2_scheme),
                        db: Session = Depends(get_session)):
-    verify_auth(access_token)
-    services.set_user_password(access_token, body, db)
+    user = get_user_by_payload(payload, db)
+    services.set_user_password(user, body, db)
     return {"message": "Password set successfully"}
 
 
 @MeRouter.patch('/me/profile', status_code=status.HTTP_201_CREATED)
-async def update_profile(body: UpdateUserInformationRequest, access_token: Annotated[Union[str, None], Cookie()] = None,
+async def update_profile(body: UpdateUserInformationRequest, payload: str = Depends(oauth2_scheme),
                          db: Session = Depends(get_session)):
-    verify_auth(access_token)
-    services.update_user_profile(access_token, body, db)
+    user = get_user_by_payload(payload, db)
+    services.update_user_profile(user, body, db)
     return {"message": "Profile updated successfully"}

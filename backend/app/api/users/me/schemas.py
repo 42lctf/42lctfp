@@ -36,6 +36,15 @@ class ChangePasswordRequest(BaseModel):
         orm_mode = True
         arbitrary_types_allowed = True
 
+    @validator('old_password', 'new_password')
+    def check_password(cls, v):
+        if v is None:
+            raise HTTPException(
+                status_code=status.HTTP_412_PRECONDITION_FAILED,
+                detail="Password can't be empty"
+            )
+        return v
+
 
 class SetNewPasswordRequest(BaseModel):
     new_password: str
@@ -43,6 +52,15 @@ class SetNewPasswordRequest(BaseModel):
     class Config:
         orm_mode = True
         arbitrary_types_allowed = True
+
+    @validator('new_password')
+    def check_password(cls, v):
+        if v is None:
+            raise HTTPException(
+                status_code=status.HTTP_412_PRECONDITION_FAILED,
+                detail="Password can't be empty"
+            )
+        return v
 
 
 class UpdateUserInformationRequest(BaseModel):

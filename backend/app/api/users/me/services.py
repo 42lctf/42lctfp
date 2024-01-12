@@ -9,13 +9,7 @@ from ..general_utils import get_user_by_token
 from ..auth.utils import password_validation, verify_password, hash_password
 
 
-def update_user_password(token: str, body: ChangePasswordRequest, db: Session):
-    user = get_user_by_token(token, db)
-    if user is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="User not found"
-        )
+def update_user_password(user, body, db):
     if user.password is None:
         raise HTTPException(
             status_code=status.HTTP_412_PRECONDITION_FAILED,
@@ -40,13 +34,7 @@ def update_user_password(token: str, body: ChangePasswordRequest, db: Session):
     db.refresh(user)
 
 
-def set_user_password(token: str, body: SetNewPasswordRequest, db: Session):
-    user = get_user_by_token(token, db)
-    if user is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="User not found"
-        )
+def set_user_password(user, body, db):
     if user.password is not None:
         raise HTTPException(
             status_code=status.HTTP_412_PRECONDITION_FAILED,
@@ -65,13 +53,7 @@ def set_user_password(token: str, body: SetNewPasswordRequest, db: Session):
     db.refresh(user)
 
 
-def update_user_profile(token: str, body: UpdateUserInformationRequest, db: Session):
-    user = get_user_by_token(token, db)
-    if user is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="User not found"
-        )
+def update_user_profile(user, body: UpdateUserInformationRequest, db: Session):
     msg, chk = utils.check_field_lens(body)
     if not chk:
         raise HTTPException(
