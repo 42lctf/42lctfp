@@ -8,7 +8,9 @@ from app.db import get_session
 from app.env_utils import *
 from . import services
 from .schemas import NicknameUpdateRequest, ChangePasswordRequest, SetNewPasswordRequest, UpdateUserInformationRequest
-from ..general_utils import get_user_by_token
+from ..general_utils import get_user_by_payload
+from ..auth.OAuthValidation import OAuth2PasswordBearer
+from ..models import User
 
 MeRouter = APIRouter()
 
@@ -27,21 +29,38 @@ def verify_auth(token: str):
         raise https_res
 
 
+oauth2_scheme = OAuth2PasswordBearer()
+
+
 @MeRouter.get('/me', status_code=status.HTTP_200_OK)
-async def get_me(access_token: Annotated[Union[str, None], Cookie()] = None, db: Session = Depends(get_session)):
-    verify_auth(access_token)
-    user = get_user_by_token(access_token, db)
+async def get_me(payload: str = Depends(oauth2_scheme), db: Session = Depends(get_session)):
+    user = get_user_by_payload(payload, db)
     user_dict = user.to_dict()
     del user_dict['password']
     return user_dict
 
 
 @MeRouter.patch('/me/nickname', status_code=status.HTTP_201_CREATED)
-async def update_nickname(body: NicknameUpdateRequest, access_token: Annotated[Union[str, None], Cookie()] = None,
+async def update_nickname(body: NicknameUpdateRequest, payload: str = Depends(oauth2_scheme),
                           db: Session = Depends(get_session)):
-    verify_auth(access_token)
-    user = services.update_user_nickname(access_token, body, db)
-    return user
+    user = get_user_by_payload(payload, db)
+    if user is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found"
+        )
+    nickname = db.query(User).filter(User.nickname == body.nickname).first()
+    if nickname:
+        raise HTTPException(
+            status_code=status.HTTP_412_PRECONDITION_FAILED,
+            detail="Nickname already chosen"
+        )
+    user.nickname = body.nickname
+    user.updated_at = body.updated_at
+    db.commit()
+    db.refresh(user)
+
+    return user.nickname
 
 
 @MeRouter.patch('/me/password', status_code=status.HTTP_201_CREATED)

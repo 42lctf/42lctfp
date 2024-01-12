@@ -2,6 +2,7 @@ from pydantic import BaseModel
 
 from datetime import datetime
 
+
 class UpdateUserProfileRequest(BaseModel):
     email: str = None
     password: str = None

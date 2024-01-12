@@ -1,37 +1,16 @@
 from datetime import datetime
 from fastapi import HTTPException, status
-from jose import jwt, JWTError
 from sqlmodel import Session
 
+
 from . import utils
-from .schemas import NicknameUpdateRequest, ChangePasswordRequest, SetNewPasswordRequest, UpdateUserInformationRequest
-from ..models import User
+from .schemas import ChangePasswordRequest, SetNewPasswordRequest, UpdateUserInformationRequest
+from ..general_utils import get_user_by_token
 from ..auth.utils import password_validation, verify_password, hash_password
-from app.env_utils import *
-
-
-def update_user_nickname(token: str, body: NicknameUpdateRequest, db: Session):
-    payload = utils.get_user_payload(token)
-    id_user: str = payload.get("sub")
-    user = db.query(User).filter(User.id == id_user).first()
-    if user is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="User not found"
-        )
-    utils.sanitize_nickname(body.nickname, db)
-    user.nickname = body.nickname
-    user.updated_at = datetime.now()
-    db.commit()
-    db.refresh(user)
-
-    return user
 
 
 def update_user_password(token: str, body: ChangePasswordRequest, db: Session):
-    payload = utils.get_user_payload(token)
-    id_user: str = payload.get("sub")
-    user = db.query(User).filter(User.id == id_user).first()
+    user = get_user_by_token(token, db)
     if user is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -62,9 +41,7 @@ def update_user_password(token: str, body: ChangePasswordRequest, db: Session):
 
 
 def set_user_password(token: str, body: SetNewPasswordRequest, db: Session):
-    payload = utils.get_user_payload(token)
-    id_user: str = payload.get("sub")
-    user = db.query(User).filter(User.id == id_user).first()
+    user = get_user_by_token(token, db)
     if user is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -89,9 +66,7 @@ def set_user_password(token: str, body: SetNewPasswordRequest, db: Session):
 
 
 def update_user_profile(token: str, body: UpdateUserInformationRequest, db: Session):
-    payload = utils.get_user_payload(token)
-    id_user: str = payload.get("sub")
-    user = db.query(User).filter(User.id == id_user).first()
+    user = get_user_by_token(token, db)
     if user is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

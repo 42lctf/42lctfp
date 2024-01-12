@@ -36,17 +36,6 @@ def sanitize_nickname(nickname: str, db: Session):
         )
 
 
-def get_user_payload(token: str):
-    try:
-        payload = jwt.decode(token, JWT_SECRET_KEY, algorithms=[ALGORITHM])
-    except JWTError:
-        raise HTTPException(
-            status_code=401,
-            detail="Couldn't validate credentials"
-        )
-    return payload
-
-
 def check_field_lens(body: UpdateUserInformationRequest):
     errors = []
     if len(body.description) > 250:
