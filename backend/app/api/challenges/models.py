@@ -11,6 +11,7 @@ class ChallengeType(enum.Enum):
     DOCKER = 'DOCKER'
 
 
+
 class Challenge(Base):
     __tablename__ = "challenges"
     id = Column(UUID(as_uuid=True), primary_key=True, index=True)
